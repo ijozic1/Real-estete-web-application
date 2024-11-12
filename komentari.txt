@@ -1,0 +1,6 @@
+Komentar na postojeci projekat
+- Početni projekat je kreiran na način da je CSS u potpunosti odvojen od HTMLa u posebne file-ove
+- Projekat sadrži sve neophodne dijelove za dalji rad na njemu i rad na zadacima u sklopu spirale1
+
+*Zadatak1*
+- dodan je link za prelazak na vijesti.html
