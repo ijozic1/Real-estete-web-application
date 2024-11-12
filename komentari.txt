@@ -5,3 +5,12 @@ Komentar na postojeci projekat
 *Zadatak1*
 - dodan je link za prelazak na vijesti.html
 - dodane su fotografije za odgovarajuce ikonice
+- zadržana je struktura meni.html u pogledu liste koje se koristi za prikaz menija što smatram dobrim 
+    jer se unutar jednog <li> mogu dodati i tekst i slika
+- promijenjen način ponašanja opcija u meniju da prilikom prelaska miša postaju transparent
+- uvećavanje ikonica postignuto pomoću transform:scale()
+- iskorišten je veći dio postojećeg meni.css, a dodane su stvari vezane za ikonice i ponašanje
+    aplikacije prilikom prelaska preko ikonica
+- promijenjen je display:bloc u display:flex kako bi se ikonice postavile ispod naziva linka
+- elementima liste je postavljen position:relative kako bi se element pomijerao relativno u odnosu
+    na uobičajnu poziciju bez utjecaja na druge elemente
