@@ -4,3 +4,4 @@ Komentar na postojeci projekat
 
 *Zadatak1*
 - dodan je link za prelazak na vijesti.html
+- dodane su fotografije za odgovarajuce ikonice
