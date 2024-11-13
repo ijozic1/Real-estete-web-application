@@ -39,7 +39,7 @@ li a:hover{
     width: 35px;
     height: 35px;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     transition: transform 1s ease, opacity 1s ease;
 }
 
