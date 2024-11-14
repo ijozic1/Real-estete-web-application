@@ -11,6 +11,6 @@ Komentar na postojeci projekat
 - uvećavanje ikonica postignuto pomoću transform:scale()
 - iskorišten je veći dio postojećeg meni.css, a dodane su stvari vezane za ikonice i ponašanje
     aplikacije prilikom prelaska preko ikonica
-- promijenjen je display:bloc u display:flex kako bi se ikonice postavile ispod naziva linka
-- elementima liste je postavljen position:relative kako bi se element pomijerao relativno u odnosu
+- promijenjen je display:block u display:flex kako bi se ikonice postavile ispod naziva linka
+- elementima liste je postavljen position:relative kako bi se element pomjerao relativno u odnosu
     na uobičajnu poziciju bez utjecaja na druge elemente
