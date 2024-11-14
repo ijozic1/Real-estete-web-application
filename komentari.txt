@@ -14,3 +14,6 @@ Komentar na postojeci projekat
 - promijenjen je display:block u display:flex kako bi se ikonice postavile ispod naziva linka
 - elementima liste je postavljen position:relative kako bi se element pomjerao relativno u odnosu
     na uobičajnu poziciju bez utjecaja na druge elemente
+
+*Zadatak2*
+- dodane su fortografije za nekretnine u resources/stan, resources/kuca, resources/pp 
