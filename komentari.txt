@@ -34,3 +34,7 @@ Komentar na postojeci projekat
         kartice u gornje redove kao što to radi grid - problem je u tome što se kartice pri 
         prelasku u novi red poravnavaju iz centra umjesto sa lijeva na desno, sve ostalo je
         najsličnije izvornoj varijanti od svega što je pokušano
+    - na Piazzi je bilo postavljeno pitanje u vezi sa načinom poravnanja elemenata i odgvor je 
+        je bio da se trebaju redati sa lijeva na desno, pa sam ipak iskoristila @media queries
+    - ono što je ranije pravilo problem je max-width:100% u .tip nekretnine; kad sam njega sklonila
+        dobila sam željeno slaganje kartica pri zoom-in i zoom-outu
