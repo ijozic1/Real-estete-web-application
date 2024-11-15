@@ -16,4 +16,21 @@ Komentar na postojeci projekat
     na uobičajnu poziciju bez utjecaja na druge elemente
 
 *Zadatak2*
-- dodane su fortografije za nekretnine u resources/stan, resources/kuca, resources/pp 
+- dodane su fotografije za nekretnine u resources/stan, resources/kuca, resources/pp 
+- sa početnom postavkom, meni je bio odrezan i ikonice su se polovično vidjele, 
+    unutar iframe promijenjena height na 100%
+- nakon što je promijenjen grid u flex, pokušavala sam postići poravnanje kartica sa 
+    lijeva na desno, s obzirom da ih flex red iz redine ka vani
+    - dodala sam justify-content: flex-start; kako bi se kartice redale sa lijeva na desno
+        međutim, tada se sve poravna sa lijeva na desno i potrebno je podešavati margine kako 
+        bi se pomijeralo prema centru
+    - na internetu sam pronašla opciju koja sa @media only screen and (max-width: _px)
+        koja reda elemente na osnovi proračuna i veličine ekrana ali je nisam ostavila jer 
+        mi se činila kao hardcoding, kada se stranica u potpunosti zoom-outa kartice ostaju 
+        onako poredane kao što stoje i na 100% dok bi se trebale pomijerati ka gore
+    - pokušala sam različite varijante sa štimanjem margina i padding-a ali ništa nije bilo 
+        dovoljno blizu početne varijante sa gridom
+    - odlučila sam se na kraju ostaviti justify-content:center jer jedini pri zoom-outu skalira
+        kartice u gornje redove kao što to radi grid - problem je u tome što se kartice pri 
+        prelasku u novi red poravnavaju iz centra umjesto sa lijeva na desno, sve ostalo je
+        najsličnije izvornoj varijanti od svega što je pokušano

@@ -8,7 +8,7 @@ body {
 iframe {
     border: none; 
     width: 100%;
-    height: 50px;
+    height: 100%;
 }
 
 .tip-nekretnine {
@@ -16,17 +16,15 @@ iframe {
     font-weight: bold;
     font-size: 24px;
     margin: 20px 0;
+    max-width: 100%;
 }
 
 .grid-lista-nekretnina {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 300px);
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
     justify-content: center;
-    /* Centriranje po horizontali */
-    align-content: center;
-    /* Centriranje po vertikali */
 }
 
 .nekretnina {
@@ -34,7 +32,7 @@ iframe {
     padding: 30px;
     background-color: white;
     text-align: center;
-    max-width: 300px;
+    width: 236px;
     height: 400px;
 }
 
