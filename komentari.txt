@@ -24,8 +24,8 @@ Komentar na postojeci projekat
     - dodala sam justify-content: flex-start; kako bi se kartice redale sa lijeva na desno
         međutim, tada se sve poravna sa lijeva na desno i potrebno je podešavati margine kako 
         bi se pomijeralo prema centru
-    - na internetu sam pronašla opciju koja sa @media only screen and (max-width: _px)
-        koja reda elemente na osnovi proračuna i veličine ekrana ali je nisam ostavila jer 
+    - na internetu sam pronašla opciju koja sa @media queries reda elemente na 
+        osnovu proračuna i veličine ekrana ali je nisam ostavila jer 
         mi se činila kao hardcoding, kada se stranica u potpunosti zoom-outa kartice ostaju 
         onako poredane kao što stoje i na 100% dok bi se trebale pomijerati ka gore
     - pokušala sam različite varijante sa štimanjem margina i padding-a ali ništa nije bilo 
