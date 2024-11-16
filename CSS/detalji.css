@@ -59,15 +59,6 @@ iframe {
   align-self: auto;
 }
 
-/*#kolona1, #kolona2{
-  flex: 1 1 50%;
-}
-
-#opis{
-  flex: 1 1 100%;
-}*/
-
-
 /* Stil za div #upiti */
 #upiti {
   border: 1px solid #000;
@@ -99,7 +90,6 @@ iframe {
     flex: 1 1 100%;
   }
 }
-
 
 /*Dugmići*/
 #carousel-controls {
