@@ -118,7 +118,7 @@ iframe {
 
 /*web carousel za sirinu manju od 600px*/
 @media (max-width: 599px) {
-    #upiti {
+  #upiti {
       flex-direction: column;
       overflow: hidden;
   }

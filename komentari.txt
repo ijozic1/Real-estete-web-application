@@ -3,6 +3,9 @@ Komentar na postojeci projekat
 - Projekat sadrži sve neophodne dijelove za dalji rad na njemu i rad na zadacima u sklopu spirale1
 - Tokom izrade spirale, primjetila sam da je poprilično forsirano korištenje <div> elemenata, dok
     samo na vježbama rekli da ih je poželjno izbjegavati te koristi float i clear
+- primjećeno je da ne radi navigacija između html-ova u svim stranicama osim meni.html; Ukoliko
+    se pokusate prebaciti iz Detalja u Nekretnine koristenjem menija, to nece biti moguće dok je 
+    prebacvanje moguce promjenom linka u pretrazivacu
 
 *Zadatak1*
 - dodan je link za prelazak na vijesti.html
