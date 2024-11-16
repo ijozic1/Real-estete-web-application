@@ -1,6 +1,8 @@
 Komentar na postojeci projekat
 - Početni projekat je kreiran na način da je CSS u potpunosti odvojen od HTMLa u posebne file-ove
 - Projekat sadrži sve neophodne dijelove za dalji rad na njemu i rad na zadacima u sklopu spirale1
+- Tokom izrade spirale, primjetila sam da je poprilično forsirano korištenje <div> elemenata, dok
+    samo na vježbama rekli da ih je poželjno izbjegavati te koristi float i clear
 
 *Zadatak1*
 - dodan je link za prelazak na vijesti.html
@@ -36,5 +38,12 @@ Komentar na postojeci projekat
         najsličnije izvornoj varijanti od svega što je pokušano
     - na Piazzi je bilo postavljeno pitanje u vezi sa načinom poravnanja elemenata i odgvor je 
         je bio da se trebaju redati sa lijeva na desno, pa sam ipak iskoristila @media queries
-    - ono što je ranije pravilo problem je max-width:100% u .tip nekretnine; kad sam njega sklonila
-        dobila sam željeno slaganje kartica pri zoom-in i zoom-outu
+    - ono što je ranije pravilo problem je max-width:100% u .tip_nekretnine; kad sam njega sklonila
+        dobila sam željeno slaganje kartica pri zoom-in i zoom-outu zbog kojeg sam ranije odustala od
+        @media queriess
+
+*Zadatak3*
+- Promijenjen je detalji.html i dodani su dugmići za navigaciju u slučaju ekrana manjeg od 600px
+- U CSS-u pomoću @media izvrseno postavljanje elemenata u zavisnoti od velicine ekrana
+- pomocu display sam onemogućila prikaz dugmića dok se širina ne spusti ispod 600px
+- dodatno sam u CSSu podesila izgled dugmića, poziciju i sl
