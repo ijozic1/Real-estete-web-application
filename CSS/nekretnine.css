@@ -45,10 +45,6 @@ iframe {
 }
 
 @media only screen and (max-width: 1920px) {
-    #kuca .grid-lista-nekretnina {
-        width: 1600px;
-    }
-
     #stan .grid-lista-nekretnina {
         width: 1600px;
     }
