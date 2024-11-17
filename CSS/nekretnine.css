@@ -88,6 +88,10 @@ iframe {
     #stan .grid-lista-nekretnina {
         width: 320px;
     }
+
+    #pp .grid-lista-nekretnina {
+        width: 320px;
+    }
 }
 
 .nekretnina.kuca {
