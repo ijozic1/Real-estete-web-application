@@ -55,3 +55,6 @@ Komentar na postojeci projekat
 - dodan je .html i .css za ovaj Zadatak
 - kreiran je .html na način da je u njega ubačen zahtijevani sadržaj u vidu vijesti
 - dodana je fotografija za glavnu vijst u resources/vijesti
+- u .css su dodni stilovi kako bi se postigli zadani izgledi
+- koristeni su @media queries za podesavanje kada je sirina manja od 800px
+- koristeni su grid-column i grid-row
