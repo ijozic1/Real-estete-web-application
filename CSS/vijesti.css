@@ -1,8 +1,8 @@
 body {
     background-color: #fdf1d3;
     font-family: Arial, sans-serif;
-    /*margin: 0;
-    padding: 0;*/
+    margin: 0;
+    padding: 0;
 }
   
 iframe {
@@ -18,13 +18,10 @@ iframe {
     align-items: center;
     grid-auto-flow: row;
     margin: 0 auto;
-    /*padding: 20px;*/
-    max-width: 1200px;
 }
 
 .glavnaVijest {
     background-color: #77abb5;
-    /*width: 1200px;*/
     border: 0.5px solid #000;
     grid-column: span 4;
     grid-row: span 2;
@@ -55,17 +52,15 @@ iframe {
 }
 
 .visokaVijest{
-    background-color: #b57796;
+    background-color:#c2bb8a;
     grid-row: span 2;
     border: 0.5px solid #000;
-    /*width: 300px;*/
     aspect-ratio: 1/2;
 }
 
 .kvadratnaVijest{
-    background-color: #c2bb8a;
+    background-color: #b57796;
     border: 0.5px solid #000;   
-    /*width: 300px;*/
     aspect-ratio: 1 / 1;
 }
 
@@ -81,18 +76,15 @@ p{
 
 @media screen and (max-width: 800px) {
     .glavnaVijest {
-        /*width: 600px;*/
         aspect-ratio: 1/1;
         grid-column: span 2;
         grid-row: span 2;
     }
     .visokaVijest {
-        /*width: 300px;*/
         grid-row: span 2;
     }
     .kvadratnaVijest {
         aspect-ratio: 1/1;
-        /*width: 300px;*/
     }
 
     #v1 {
