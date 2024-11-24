@@ -5,6 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const prethodni = document.getElementById('prethodni');
     const sljedeci = document.getElementById('sljedeci');
 
+    const pocetniElementi = glavniElement.innerHTML;
+    window.addEventListener('resize', () => {
+        if(window.innerWidth > 600){
+            glavniElement.innerHTML = pocetniElementi;
+        }
+    });
+    
     if(sviElementi.length <= 1){
         return;
     }
