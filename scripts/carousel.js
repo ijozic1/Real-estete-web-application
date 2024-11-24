@@ -1,25 +1,24 @@
 function postaviCarousel(glavniElement, sviElementi, indeks=0) {
-    if(glavniElement === null || sviElementi === undefined || sviElementi.length === 0) {
-        return;
+    if(glavniElement === null || glavniElement === undefined || 
+        !Array.isArray(sviElementi) || sviElementi.length === 0 || 
+        indeks < 0 || indeks >= sviElementi.length) {
+            return null;
+    }
+
+    function prikaziTrenutniElement(){
+        glavniElement.innerHTML=sviElementi[indeks].outerHTML;
+
     }
 
     function fnLijevo(){
-        if(indeks === 0) {
-            indeks = sviElementi.length - 1;
-        }
-        else {
-            indeks--;
-        }
-        glavniElement.innerHTML = sviElementi[indeks];
+        indeks=(indeks - 1 + sviElementi.length) % sviElementi.length;	
+        prikaziTrenutniElement();
     }
 
     function fnDesno(){
-        if(indeks === sviElementi.length - 1) {
-            indeks = 0;
-        }
-        else {
-            indeks++;
-        }
-        glavniElement.innerHTML = sviElementi[indeks];
+        indeks=(indeks + 1) % sviElementi.length;
+        prikaziTrenutniElement();
     }
+
+    return{fnLijevo, fnDesno};
 }
