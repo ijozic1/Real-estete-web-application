@@ -71,20 +71,23 @@ let StatistikaNekretnina = function (){
         let histogram = [];
 
         periodi.forEach((period, indeksPerioda) => {
-            rasponiCijena.forEach((rasponCijena, indeksRaspona) => {
-                let brNekretnina = listaNekretnina.filter(nekretnina => {
+            rasponiCijena.forEach((rasponCijena, indeksRasponaCijena) => {
+                let brojNekretnina = listaNekretnina.filter(nekretnina => {
                     let cijena = nekretnina.cijena;
+                    
+                    /*let danObjave = parseInt(nekretnina.datum_objave.split('.')[0]);
+                    let mjesecObjave = parseInt(nekretnina.datum_objave.split('.')[1]);*/
                     let datumObjave = parseInt(nekretnina.datum_objave.split('.')[2]);
 
                     return(
                         datumObjave >= period.od &&
-                        datumObjave < period.do &&
+                        datumObjave <= period.do &&
                         cijena >= rasponCijena[0] &&
-                        cijena < rasponCijena[1]
+                        cijena <= rasponCijena[1]
                     );
                 }).length;
 
-                histogram.push({indeksPerioda, indeksRaspona, brNekretnina});
+                histogram.push({indeksPerioda, indeksRasponaCijena, brojNekretnina});
             });
         });
 
