@@ -20,6 +20,14 @@ iframe {
     max-width: 100%;
 }
 
+#podnaslov{
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
 #statistika_wrapper{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -100,6 +108,11 @@ iframe {
     border: 2px solid #c0c0c0;
 }
 
+select {
+    width: 160px;
+    padding: 5px;
+    font-size: 16px; 
+}
 
 
 

@@ -1,198 +1,21 @@
 const dodajCijenuBtn = document.getElementById("cijena_dodaj_opseg");
 const dodajGodinuBtn = document.getElementById("godina_dodaj_opseg");
 const resetBtn = document.getElementById("reset");
-const prikaziBtn = document.getElementById("prikazi_histogram");
+const prikaziHistoBtn = document.getElementById("prikazi_histogram");
+const resetOstaloBtn = document.getElementById("reset_ostalo");
+const prikaziOstaloBtn = document.getElementById("prikazi_podatke");
 
 const histogramCijeneData = [];
 const histogramGodinaData = [];
 
 dodajCijenuBtn.addEventListener("click", dodajCijenu);
 dodajGodinuBtn.addEventListener("click", dodajGodinu);
-resetBtn.addEventListener("click", izbrisiFormu)
-prikaziBtn.addEventListener("click", prikaziHistogram);
+resetBtn.addEventListener("click", izbrisiFormuZaHistogram)
+prikaziHistoBtn.addEventListener("click", prikaziHistogram);
+resetOstaloBtn.addEventListener("click", izbrisiFormuZaOstalo)
+prikaziOstaloBtn.addEventListener("click", prikaziPodatkeOstalo);
 
 const statistikaNekretnina = StatistikaNekretnina();
-
-izbrisiFormu();
-
-function izbrisiFormu(){
-    let godine = document.getElementById("rangovi_godina");
-    let cijene = document.getElementById("rangovi_cijena");
-
-    while(godine.firstChild){
-        godine.removeChild(godine.firstChild);
-    }
-
-    while(cijene.firstChild){
-        cijene.removeChild(cijene.firstChild);
-    }
-
-    document.getElementById("godina_od").value = "";
-    document.getElementById("godina_do").value = "";
-
-    document.getElementById("cijena_od").value = "";
-    document.getElementById("cijena_do").value = "";
-
-    document.getElementById("plin").checked=false;
-    document.getElementById("toplana").checked=false;
-    document.getElementById("struja").checked=false;
-
-    document.getElementById("histogram").innerHTML = "";
-
-    if(histogramGodinaData.length > 0) {
-        histogramGodinaData.length = 0;
-    }
-
-    if(histogramCijeneData.length > 0) {
-        histogramCijeneData.length = 0;
-    }
-}
-
-function ponistiUnosGodine(){
-    document.getElementById("godina_od").value = "";
-    document.getElementById("godina_do").value = "";
-}
-
-function ponistiUnosCijene(){
-    document.getElementById("cijena_od").value = "";
-    document.getElementById("cijena_do").value = "";
-}
-
-function ulDodajItem(div, item){
-    let li = document.createElement("li");
-    li.innerHTML = item;
-    li.id = "li_";
-    div.appendChild(li);
-}
-
-function dodajGodinu(){
-    let godinaOd = document.getElementById("godina_od").value;
-    let godinaDo = document.getElementById("godina_do").value;
-
-    if(!godinaOd || !godinaDo){
-        alert("Morate unijeti obje granice za godine!");
-        ponistiUnosGodine();
-        return;
-    }
-
-    if(parseInt(godinaOd) > parseInt(godinaDo)){
-        alert("Pocetna godina mora biti manja od krajnje godine!");
-        ponistiUnosGodine();
-        return;
-    }
-
-    let godine = document.getElementById("rangovi_godina");
-    let item = `${godinaOd} - ${godinaDo}`;
-    ulDodajItem(godine, item);
-
-    ponistiUnosGodine();
-    histogramGodinaData.push([parseInt(godinaOd), parseInt(godinaDo)]);
-}
-
-function dodajCijenu(){
-    let cijenaOd = document.getElementById("cijena_od").value;
-    let cijenaDo = document.getElementById("cijena_do").value;
-
-    if(!cijenaOd || !cijenaDo){
-        alert("Morate unijeti obje granice za cijenu!");
-        ponistiUnosCijene();
-        return;
-    }
-
-    if(parseInt(cijenaOd) > parseInt(cijenaDo)){
-        alert("Pocetna cijena mora biti manja od krajnje cijene!");
-        ponistiUnosCijene();
-        return;
-    }
-
-    let cijene = document.getElementById("rangovi_cijena");
-    let item = `${cijenaOd} - ${cijenaDo}`;
-    ulDodajItem(cijene, item);
-
-    ponistiUnosCijene();
-    histogramCijeneData.push([parseInt(cijenaOd), parseInt(cijenaDo)]);
-}
-
-function iscrtajHistogram(histogram, periodi, rasponiCijena){
-    const histogrami = document.getElementById("histogram");
-    histogrami.innerHTML = "";
-
-    periodi.forEach((period, indeksPerioda) => {
-        const canvas = document.createElement("canvas");
-        canvas.id = `histogram_${indeksPerioda}`;
-        histogrami.appendChild(canvas);
-
-        const periodData = histogram.filter(item => item.indeksPerioda === indeksPerioda);
-        const labels = rasponiCijena.map((raspon, indeks) => `${raspon[0]} - ${raspon[1]}`);
-        const podaci = Array(rasponiCijena.length).fill(0);
-        
-        periodData.forEach(item => {
-            podaci[item.indeksRasponaCijena] = item.brojNekretnina;
-        });
-
-        new Chart(canvas, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: `Broj nekretnina u periodu (${period.od} - ${period.do})`,
-                        data: podaci,
-                        backgroundColor: "#f0c14b",
-                        borderColor: "#000",
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options:{
-                responsive: true,
-                plugins:{
-                    title:{
-                        display: true,
-                        text: `Histogram za period (${period.od} - ${period.do})`,
-                    },
-                },
-                scales:{
-                    x:{
-                        title:{
-                            display: true,
-                            text: 'Raspon cijena',
-                        }
-                    },
-                    y:{
-                        title:{
-                            display: true,
-                            text: 'Broj nekretnina',
-                        },
-                        ticks:{
-                            stepSize: 1,
-                            padding: 10,
-                        },
-                        beginAtZero: true,
-                    },
-                },
-            },
-        });
-    });
-}
-
-function prikaziHistogram(){
-    let periodi = [];
-    let rasponiCijena = histogramCijeneData;
-    let rasponiGodina = histogramGodinaData;
-
-    if(rasponiCijena.length ===0 || rasponiGodina.length === 0){
-        alert("Morate unijeti bar po jedan raspon cijena i godina!");
-        return;
-    }
-
-    for(let i=0; i<rasponiGodina.length; i++){
-        periodi.push({od: parseInt(rasponiGodina[i][0]), do: parseInt(rasponiGodina[i][1])});
-    }
-
-    let histogram = statistikaNekretnina.histogramCijena(periodi, rasponiCijena);
-    iscrtajHistogram(histogram, periodi, rasponiCijena);
-}
 
 const listaNekretnina = [
     {
@@ -416,3 +239,230 @@ const listaKorisnika = [
         username: "nekanekic",
     },
 ]
+
+function popuniDropdownKorisnik(idDropdown) {
+    const dropdown = document.getElementById(idDropdown);
+
+    if (!dropdown) {
+        console.error(`Element sa ID '${idDropdown}' nije pronađen.`);
+        return;
+    }
+
+    listaKorisnika.forEach(korisnik => {
+        const opcija = document.createElement("option");
+        opcija.value = korisnik.id; 
+        opcija.textContent = `${korisnik.ime} ${korisnik.prezime} (${korisnik.username})`;
+        dropdown.appendChild(opcija);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    popuniDropdownKorisnik("korisnici_dropdown");
+});
+
+izbrisiFormuZaHistogram();
+izbrisiFormuZaOstalo();
+
+function izbrisiFormuZaHistogram(){
+    let godine = document.getElementById("rangovi_godina");
+    let cijene = document.getElementById("rangovi_cijena");
+
+    while(godine.firstChild){
+        godine.removeChild(godine.firstChild);
+    }
+
+    while(cijene.firstChild){
+        cijene.removeChild(cijene.firstChild);
+    }
+
+    document.getElementById("godina_od").value = "";
+    document.getElementById("godina_do").value = "";
+
+    document.getElementById("cijena_od").value = "";
+    document.getElementById("cijena_do").value = "";
+
+    document.getElementById("histogram").innerHTML = "";
+
+    if(histogramGodinaData.length > 0) {
+        histogramGodinaData.length = 0;
+    }
+
+    if(histogramCijeneData.length > 0) {
+        histogramCijeneData.length = 0;
+    }
+}
+
+function izbrisiFormuZaOstalo(){
+    document.getElementById("stan").checked = false;
+    document.getElementById("kuca").checked = false;
+    document.getElementById("poslovni_prostor").checked = false;
+
+    document.getElementById("min_kvadratura").value = "";
+    document.getElementById("max_kvadratura").value = "";
+
+    document.getElementById("lokacija").value = "";
+    
+    document.getElementById("plin").checked=false;
+    document.getElementById("toplana").checked=false;
+    document.getElementById("struja").checked=false;
+
+    document.getElementById("godina_izgradnje").value = "";
+
+    document.getElementById("cijena_od_ostalo").value = "";
+    document.getElementById("cijena_do_ostalo").value = "";
+
+    document.getElementById("korisnici_dropdown").value = "";
+
+    //document.getElementById("ostalo").innerHTML = "";
+}
+
+function prikaziPodatkeOstalo(){
+
+}
+
+
+function ponistiUnosGodine(){
+    document.getElementById("godina_od").value = "";
+    document.getElementById("godina_do").value = "";
+}
+
+function ponistiUnosCijene(){
+    document.getElementById("cijena_od").value = "";
+    document.getElementById("cijena_do").value = "";
+}
+
+function ulDodajItem(div, item){
+    let li = document.createElement("li");
+    li.innerHTML = item;
+    li.id = "li_";
+    div.appendChild(li);
+}
+
+function dodajGodinu(){
+    let godinaOd = document.getElementById("godina_od").value;
+    let godinaDo = document.getElementById("godina_do").value;
+
+    if(!godinaOd || !godinaDo){
+        alert("Morate unijeti obje granice za godine!");
+        ponistiUnosGodine();
+        return;
+    }
+
+    if(parseInt(godinaOd) > parseInt(godinaDo)){
+        alert("Pocetna godina mora biti manja od krajnje godine!");
+        ponistiUnosGodine();
+        return;
+    }
+
+    let godine = document.getElementById("rangovi_godina");
+    let item = `${godinaOd} - ${godinaDo}`;
+    ulDodajItem(godine, item);
+
+    ponistiUnosGodine();
+    histogramGodinaData.push([parseInt(godinaOd), parseInt(godinaDo)]);
+}
+
+function dodajCijenu(){
+    let cijenaOd = document.getElementById("cijena_od").value;
+    let cijenaDo = document.getElementById("cijena_do").value;
+
+    if(!cijenaOd || !cijenaDo){
+        alert("Morate unijeti obje granice za cijenu!");
+        ponistiUnosCijene();
+        return;
+    }
+
+    if(parseInt(cijenaOd) > parseInt(cijenaDo)){
+        alert("Pocetna cijena mora biti manja od krajnje cijene!");
+        ponistiUnosCijene();
+        return;
+    }
+
+    let cijene = document.getElementById("rangovi_cijena");
+    let item = `${cijenaOd} - ${cijenaDo}`;
+    ulDodajItem(cijene, item);
+
+    ponistiUnosCijene();
+    histogramCijeneData.push([parseInt(cijenaOd), parseInt(cijenaDo)]);
+}
+
+function iscrtajHistogram(histogram, periodi, rasponiCijena){
+    const histogrami = document.getElementById("histogram");
+    histogrami.innerHTML = "";
+
+    periodi.forEach((period, indeksPerioda) => {
+        const canvas = document.createElement("canvas");
+        canvas.id = `histogram_${indeksPerioda}`;
+        histogrami.appendChild(canvas);
+
+        const periodData = histogram.filter(item => item.indeksPerioda === indeksPerioda);
+        const labels = rasponiCijena.map((raspon, indeks) => `${raspon[0]} - ${raspon[1]}`);
+        const podaci = Array(rasponiCijena.length).fill(0);
+        
+        periodData.forEach(item => {
+            podaci[item.indeksRasponaCijena] = item.brojNekretnina;
+        });
+
+        new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: `Broj nekretnina u periodu (${period.od} - ${period.do})`,
+                        data: podaci,
+                        backgroundColor: "#f0c14b",
+                        borderColor: "#000",
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options:{
+                responsive: true,
+                plugins:{
+                    title:{
+                        display: true,
+                        text: `Histogram za period (${period.od} - ${period.do})`,
+                    },
+                },
+                scales:{
+                    x:{
+                        title:{
+                            display: true,
+                            text: 'Raspon cijena',
+                        }
+                    },
+                    y:{
+                        title:{
+                            display: true,
+                            text: 'Broj nekretnina',
+                        },
+                        ticks:{
+                            stepSize: 1,
+                            padding: 10,
+                        },
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    });
+}
+
+function prikaziHistogram(){
+    let periodi = [];
+    let rasponiCijena = histogramCijeneData;
+    let rasponiGodina = histogramGodinaData;
+
+    if(rasponiCijena.length ===0 || rasponiGodina.length === 0){
+        alert("Morate unijeti bar po jedan raspon cijena i godina!");
+        return;
+    }
+
+    for(let i=0; i<rasponiGodina.length; i++){
+        periodi.push({od: parseInt(rasponiGodina[i][0]), do: parseInt(rasponiGodina[i][1])});
+    }
+
+    let histogram = statistikaNekretnina.histogramCijena(periodi, rasponiCijena);
+    iscrtajHistogram(histogram, periodi, rasponiCijena);
+}
