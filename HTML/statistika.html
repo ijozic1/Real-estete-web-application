@@ -13,118 +13,144 @@
         <div id="sve">
             <h2 id="podnaslov">Dodatne statističke informacije</h2>
             <div id="dodatne_info_wrapper">
-                <form if="forma">
-                    <table id="unos">
-                        <tr>
-                            <td>
-                                <h3>Tip nekretnine: </h3>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="radio" id="stan" name="tip_nekretnine"> Stan
-                            </td>
-                            <td>
-                                <input type="radio" id="kuca" name="tip_nekretnine"> Kuća
-                            </td>
-                            <td>
-                                <input type="radio" id="poslovni_prostor" name="tip_nekretnine"> Poslovni prostor
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <h3>Kvadratura: </h3>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                Od: <input type="number" id="min_kvadratura">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                Do: <input type="number" id="max_kvadratura">
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <h3>Lokacija: </h3>
-                            </td>
-                            <td>
-                                <input type="text" id="lokacija">
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <h3>Grijanje:</h3>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="struja">
-                                <label for="struja">Struja</label>
-                            </td>
-                            <td>
-                                <input type="checkbox" id="plin">
-                                <label for="plin">Plin</label>
-                            </td>
-                            <td>
-                                <input type="checkbox" id="toplana">
-                                <label for="toplana">Toplana</label>
-                            </td>
-                        </tr>
-        
-                        <tr>
-                            <td>
-                                <h3>Godina izgradnje: </h3>
-                            </td>
-                            <td>
-                                <input type="number" id="godina_izgradnje">
-                            </td>
-                        </tr>
+                <div id="forma">
+                    <form if="forma">
+                        <table id="unos">
+                            <tr>
+                                <td>
+                                    <h3>Tip nekretnine: </h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="radio" id="stan" name="tip_nekretnine"> Stan
+                                </td>
+                                <td>
+                                    <input type="radio" id="kuca" name="tip_nekretnine"> Kuća
+                                </td>
+                                <td>
+                                    <input type="radio" id="poslovni_prostor" name="tip_nekretnine"> Poslovni prostor
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <h3>Kvadratura: </h3>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    Od: <input type="number" id="min_kvadratura">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    Do: <input type="number" id="max_kvadratura">
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <h3>Lokacija: </h3>
+                                </td>
+                                <td>
+                                    <input type="text" id="lokacija">
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <h3>Grijanje:</h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="struja">
+                                    <label for="struja">Struja</label>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="plin">
+                                    <label for="plin">Plin</label>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="toplana">
+                                    <label for="toplana">Toplana</label>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td>
+                                    <h3>Godina izgradnje: </h3>
+                                </td>
+                                <td>
+                                    <input type="number" id="godina_izgradnje">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                <h3>Cijena: </h3>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                Od: <input type="number" id="cijena_od_ostalo">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                Do: <input type="number" id="cijena_do_ostalo">
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <h3>Cijena: </h3>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    Od: <input type="number" id="cijena_od_ostalo">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    Do: <input type="number" id="cijena_do_ostalo">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                <h3>Korisnik: </h3>
-                            </td>
-                            <td>
-                                <select id="korisnici_dropdown">
-                                </select>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <h3>Korisnik: </h3>
+                                </td>
+                                <td>
+                                    <select id="korisnici_dropdown">
+                                    </select>
+                                </td>
+                            </tr>
 
+                            <tr>
+                                <td><button type="button" id="reset_ostalo">Resetuj formu</td>
+                                <td><button type="button" id="prikazi_podatke">Prikaži podatke</td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+                <div id="podaci">
+                    <table id="tabela_podaci">
                         <tr>
-                            <td><button type="button" id="reset_ostalo">Resetuj formu</td>
-                            <td><button type="button" id="prikazi_podatke">Prikaži podatke</td>
+                            <td>
+                                <h3>Prosječna kvadratura: </h3>
+                            </td>
+                            <td class="data" id="prosjecna_kvadratura"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h3>Outlier po unesenom kriteriju: </h3>
+                            </td>
+                            <td class="data" id="outlier_po_kriteriju"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h3>Nekretnine korisnika: </h3>
+                                <ul id="moje_nekretnine_lista"></ul>
+                            </td>
                         </tr>
                     </table>
-                </form>
-            </div>
+                </div>
+
+            </div>  
 
             <br> <br>
             <h2 id="podnaslov">Kreiranje histograma</h2>

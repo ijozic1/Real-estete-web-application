@@ -28,6 +28,23 @@ iframe {
     max-width: 100%;
 }
 
+#sve{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: center;
+    padding-bottom: 200px;
+}
+
+#dodatne_info_wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 40px;
+    justify-content: left;
+    padding: 20px;
+}
+
 #statistika_wrapper{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -109,9 +126,14 @@ iframe {
 }
 
 select {
-    width: 160px;
+    width: 180px;
     padding: 5px;
-    font-size: 16px; 
+    font-size: 12px; 
+}
+
+.data {
+    padding-left: 30px;
+    text-align: right;
 }
 
 

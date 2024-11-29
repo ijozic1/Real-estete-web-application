@@ -39,13 +39,13 @@ let StatistikaNekretnina = function (){
         let indexMaxOdstupanja = 0;
         let maxOdstupanje = 0;
 
-        for(let i=0; i<listaNekretninaPoKriteriju.length; i++) {
-            let odstupanje = Math.abs(listaNekretninaPoKriteriju[i][nazivSvojstva] - prosjek);
-            if(odstupanje > maxOdstupanje) {
+        listaNekretninaPoKriteriju.forEach((nekretnina, i) => {
+            let odstupanje = Math.abs(nekretnina[nazivSvojstva] - prosjek);
+            if (odstupanje > maxOdstupanje) {
                 maxOdstupanje = odstupanje;
                 indexMaxOdstupanja = i;
             }
-        }
+        });
 
         return listaNekretninaPoKriteriju[indexMaxOdstupanja];
     }
@@ -57,7 +57,7 @@ let StatistikaNekretnina = function (){
                     upit.korisnik_id === korisnik.id)); 
 
         //sortiranje po broju upita
-        listaNekretninaKojeSadrzeUpitKorisnika.sort((a, b) => {a.upiti.length > b.upiti.length});
+        listaNekretninaKojeSadrzeUpitKorisnika.sort((a, b) => {return a.upiti.length > b.upiti.length});
                     
         return listaNekretninaKojeSadrzeUpitKorisnika;
     }
