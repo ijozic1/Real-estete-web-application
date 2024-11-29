@@ -65,19 +65,6 @@ let StatistikaNekretnina = function (){
     let histogramCijena = function(periodi, rasponiCijena) {
         let histogram = [];
 
-        //oznaceni filteri
-        let tip_nekretnine = document.querySelector('input[name="tip_nekretnine"]:checked')?.value
-        let lokacija = document.getElementById('lokacija').value;
-        let min_kvadratura = document.getElementById('min_kvadratura').value;
-        let max_kvadratura = document.getElementById('max_kvadratura').value;
-        let godina_izgradnje = document.getElementById('godina_izgradnje').value;
-        
-        let tip_Grijanja = [];
-        if(document.getElementById('struja').checked) tip_Grijanja.push('struja');
-        if(document.getElementById('plin').checked) tip_Grijanja.push('plin');
-        if(document.getElementById('toplana').checked) tip_Grijanja.push('toplana');
-        
-
         periodi.forEach((period, indeksPerioda) => {
             rasponiCijena.forEach((rasponCijena, indeksRasponaCijena) => {
                 let brojNekretnina = listaNekretnina.filter(nekretnina => {
@@ -87,23 +74,7 @@ let StatistikaNekretnina = function (){
                     let mjesecObjave = parseInt(nekretnina.datum_objave.split('.')[1]);*/
                     let datumObjave = parseInt(nekretnina.datum_objave.split('.')[2]);
 
-                    let godinaIzgradnje = nekretnina.godina_izgradnje;
-                    let kvadratura = nekretnina.kvadratura;
-                    let lokacijaNekretnine = nekretnina.lokacija;
-                    let tipNekretnine = nekretnina.tip_nekretnine;
-                    let tipGrijanjaNekretnine = nekretnina.tip_grijanja;
-
-                    let odgovara = true;
-
-                    if(godina_izgradnje && godinaIzgradnje !== godina_izgradnje) odgovara = false;
-                    if(min_kvadratura && kvadratura < min_kvadratura) odgovara = false;
-                    if(max_kvadratura && kvadratura > max_kvadratura) odgovara = false;
-                    if(lokacija && lokacijaNekretnine !== lokacija) odgovara = false;
-                    if(tip_nekretnine && tipNekretnine !== tip_nekretnine) odgovara = false;
-                    if(tip_Grijanja.length > 0 && !tip_Grijanja.includes(tipGrijanjaNekretnine)) odgovara = false;
-
                     return(
-                        odgovara &&
                         datumObjave >= period.od &&
                         datumObjave <= period.do &&
                         cijena >= rasponCijena[0] &&
