@@ -37,6 +37,21 @@ let SpisakNekretnina = function () {
                 return false;
             }
 
+            // Filtriranje po tipu grijanja
+            if (kriterij.tip_grijanja && nekretnina.tip_grijanja !== kriterij.tip_grijanja) {
+                return false;
+            }
+
+            // Filtriranje po lokaciji
+            if (kriterij.lokacija && nekretnina.lokacija !== kriterij.lokacija) {
+                return false;
+            }
+
+            // Filtriranje po godini izgradnje
+            if (kriterij.godina_izgradnje && nekretnina.godina_izgradnje !== kriterij.godina_izgradnje) {
+                return false;
+            }
+
             return true;
         });
     }

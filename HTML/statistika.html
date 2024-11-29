@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="bs-BA">
+    <head>
+        <meta charset="UTF-8">
+        <title>Statistika</title>
+        <link rel="stylesheet" href="../css/statistika.css">
+    </head>
+    <body>
+        <iframe src="meni.html"></iframe>
+        <h1 id="naslov">Statistika</h1>
+
+        <div id="statistika_wrapper">
+            <div id="forma">
+                <form>
+                    <table id="unos">
+                        <tr>
+                            <td>
+                                <h3>Cijena: </h3>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                Od: <input type="number" id="cijena_od">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                Do: <input type="number" id="cijena_do">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button type="button" id="cijena_dodaj_opseg">Dodaj opseg</button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h3>Godina objave: </h3>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                Od: <input type="number" id="godina_od">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                Do: <input type="number" id="godina_do">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button type="button" id="godina_dodaj_opseg">Dodaj opseg</button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h3>Tip nekretnine: </h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="stan" name="tip_nekretnine"> Stan
+                            </td>
+                            <td>
+                                <input type="radio" id="kuca" name="tip_nekretnine"> Kuća
+                            </td>
+                            <td>
+                                <input type="radio" id="poslovni_prostor" name="tip_nekretnine"> Poslovni prostor
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h3>Kvadratura: </h3>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                Od: <input type="number" id="min_kvadratura">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                Do: <input type="number" id="max_kvadratura">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h3>Lokacija: </h3>
+                            </td>
+                            <td>
+                                <input type="text" id="lokacija">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h3>Grijanje:</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="struja">
+                                <label for="struja">Struja</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="plin">
+                                <label for="plin">Plin</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="toplana">
+                                <label for="toplana">Toplana</label>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h3>Godina izgradnje: </h3>
+                            </td>
+                            <td>
+                                <input type="number" id="godina_izgradnje">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><button type="button" id="reset">Resetuj formu</td>
+                            <td><button type="button" id="prikazi_histogram">Prikaži histogram(e)</td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+
+            <div id="prikaz_rangova_cijena"> Uneseni opsezi cijena:
+                <ul id="rangovi_cijena"></ul>
+            </div>
+
+            <div id="prikaz_rangova_godina"> Uneseni periodi godina:
+                <ul id="rangovi_godina"></ul>
+            </div>
+
+            <div id="histogram_wrapper">
+                <div id="histogram"></div>
+            </div>
+
+        </div>
+
+        <script src="../scripts/SpisakNekretnina.js"></script>
+        <script src="../scripts/StatistikaNekretnina.js"></script>
+        <script src="../scripts/statistika.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+    </body>
+</html>
