@@ -136,5 +136,8 @@ select {
     text-align: right;
 }
 
+#lokacija, #godina_izgradnje, #korisnici_dropdown{
+    float:right;
+}
 
 
