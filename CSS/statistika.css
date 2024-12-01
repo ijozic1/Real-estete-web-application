@@ -59,8 +59,9 @@ iframe {
     align-items: center;
     box-shadow: 2px 2px 4px #000;
     width: 450px;
-    height: 350 px;
-    padding: 10px;
+    height: 200px;
+    padding: 50px;
+    margin-left: 20px;
     background-color: #f5ebdc;
     font-family: Arial, sans-serif;
 }
@@ -96,7 +97,7 @@ input{
     display: none;
     width: 100%;
     border-collapse: collapse;
-    margin-left: 10px;
+    margin-left: 40px;
 }
 
 #tabela_podaci{
