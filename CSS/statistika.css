@@ -54,6 +54,45 @@ iframe {
     padding: 20px;
 }
 
+#prosjecna_kvadratura, #outlier, #moje_nekretnine{
+    display: grid;
+    align-items: center;
+    box-shadow: 2px 2px 4px #000;
+    width: 450px;
+    height: 350 px;
+    padding: 10px;
+    background-color: #f5ebdc;
+    font-family: Arial, sans-serif;
+}
+
+select {
+    width: 175px;
+    padding: 5px;
+    font-size: 15px; 
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+}
+
+#dodatne_info_wrapper button{
+    white-space: nowrap;
+    background-color: #f0c14b;
+    border: 1px solid #000;
+    /*color: #ffc; */
+    color: #80520e;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 7px;
+}
+
+#dodatne_info_wrapper button:hover{
+   background-color: #d4a62a;
+}
+
+#podaci table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
 #unos{
     width: 100%;
     border-collapse: collapse;
@@ -68,7 +107,8 @@ iframe {
     white-space: nowrap;
     background-color: #f0c14b;
     border: 1px solid #000;
-    color: #ffc;
+    /*color: #ffc;*/
+    color: #80520e;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -125,19 +165,7 @@ iframe {
     border: 2px solid #c0c0c0;
 }
 
-select {
-    width: 180px;
-    padding: 5px;
-    font-size: 12px; 
-}
-
 .data {
     padding-left: 30px;
     text-align: right;
 }
-
-#lokacija, #godina_izgradnje, #korisnici_dropdown{
-    float:right;
-}
-
-

@@ -106,7 +106,8 @@ iframe {
   cursor: pointer;
   font-weight: bold;
   font-size: 80%;
-  color: #ffc;
+  /*color: #ffc;*/
+  color: #80520e;
   width: 140px;
   height: 40px;
   transition: background-color 0.3s ease;

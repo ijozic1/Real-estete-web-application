@@ -2,8 +2,8 @@ const dodajCijenuBtn = document.getElementById("cijena_dodaj_opseg");
 const dodajGodinuBtn = document.getElementById("godina_dodaj_opseg");
 const resetBtn = document.getElementById("reset");
 const prikaziHistoBtn = document.getElementById("prikazi_histogram");
-const resetOstaloBtn = document.getElementById("reset_ostalo");
-const prikaziOstaloBtn = document.getElementById("prikazi_podatke");
+/*const resetOstaloBtn = document.getElementById("reset_ostalo");*/
+/*const prikaziOstaloBtn = document.getElementById("prikazi_podatke");*/
 
 const histogramCijeneData = [];
 const histogramGodinaData = [];
@@ -12,8 +12,8 @@ dodajCijenuBtn.addEventListener("click", dodajCijenu);
 dodajGodinuBtn.addEventListener("click", dodajGodinu);
 resetBtn.addEventListener("click", izbrisiFormuZaHistogram)
 prikaziHistoBtn.addEventListener("click", prikaziHistogram);
-resetOstaloBtn.addEventListener("click", izbrisiFormuZaOstalo)
-prikaziOstaloBtn.addEventListener("click", prikaziPodatkeOstalo);
+/*resetOstaloBtn.addEventListener("click", izbrisiFormuZaOstalo)*/
+/*prikaziOstaloBtn.addEventListener("click", prikaziPodatkeOstalo);*/
 
 const statistikaNekretnina = StatistikaNekretnina();
 
@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 izbrisiFormuZaHistogram();
-izbrisiFormuZaOstalo();
+//izbrisiFormuZaOstalo();
 
 function izbrisiFormuZaHistogram(){
     let godine = document.getElementById("rangovi_godina");
@@ -292,7 +292,7 @@ function izbrisiFormuZaHistogram(){
     }
 }
 
-function izbrisiFormuZaOstalo(){
+/*function izbrisiFormuZaOstalo(){
     document.getElementById("stan").checked = false;
     document.getElementById("kuca").checked = false;
     document.getElementById("poslovni_prostor").checked = false;
@@ -314,7 +314,7 @@ function izbrisiFormuZaOstalo(){
     document.getElementById("korisnici_dropdown").value = "";
 
     //document.getElementById("ostalo").innerHTML = "";
-}
+}*/
 
 function prikaziPodatkeOstalo(){
 
