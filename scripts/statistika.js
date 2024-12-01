@@ -238,6 +238,12 @@ const listaKorisnika = [
         prezime: "Nekic",
         username: "nekanekic",
     },
+    {
+        id: 3,
+        ime: "Niko",
+        prezime: "Nikic",
+        username: "nikonikic",
+    },
 ]
 
 function popuniDropdownKorisnik(idDropdown) {
@@ -248,6 +254,11 @@ function popuniDropdownKorisnik(idDropdown) {
         return;
     }
 
+    const praznaOpcija = document.createElement("option");
+    praznaOpcija.value = "";
+    praznaOpcija.textContent = "";
+    dropdown.appendChild(praznaOpcija);
+
     listaKorisnika.forEach(korisnik => {
         const opcija = document.createElement("option");
         opcija.value = korisnik.id; 
@@ -257,8 +268,73 @@ function popuniDropdownKorisnik(idDropdown) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    //dinamicko popunjavanje dropdown-a za korisnike
     popuniDropdownKorisnik("korisnici_dropdown");
 });
+
+document.getElementById('kriterij_kvadratura').addEventListener('change', function () {
+    // sakrij sve tabele
+    const allTables = [
+        'tip_nekretnine_dropdown_kvadratura',
+        'kvadratura_za_prosjek',
+        'cijena_za_prosjek',
+        'grijanje_prosjek',
+        'lokacija_prosjek_1',
+        'godina_izgradnje_prosjek_1'
+    ];
+
+    allTables.forEach(id => {
+        document.getElementById(id).style.display = 'none';
+    });
+
+    // prikazu odabranu tabelu
+    const selectedValue = this.value;
+    const tableId = {
+        'tip_nekretnine': 'tip_nekretnine_dropdown_kvadratura',
+        'kvadratura': 'kvadratura_za_prosjek',
+        'cijena': 'cijena_za_prosjek',
+        'tip_grijanja': 'grijanje_prosjek',
+        'lokacija': 'lokacija_prosjek_1',
+        'godina_izgradnje': 'godina_izgradnje_prosjek_1'
+    }[selectedValue];
+
+    if (tableId) {
+        document.getElementById(tableId).style.display = 'table';
+    }
+});
+document.getElementById('kriterij_kvadratura').dispatchEvent(new Event('change'));
+
+document.getElementById('kriterij_outlier').addEventListener('change', function () {
+    // sakrij sve tabele
+    const allTables = [
+        'tip_nekretnine_dropdown_outlier',
+        'kvadratura_za_outlier',
+        'cijena_za_outlier',
+        'grijanje_outlier',
+        'lokacija_outlier_1',
+        'godina_izgradnje_outlier_1'
+    ];
+
+    allTables.forEach(id => {
+        document.getElementById(id).style.display = 'none';
+    });
+
+    // prikazu odabranu tabelu
+    const selectedValue = this.value;
+    const tableId = {
+        'tip_nekretnine': 'tip_nekretnine_dropdown_outlier',
+        'kvadratura': 'kvadratura_za_outlier',
+        'cijena': 'cijena_za_outlier',
+        'tip_grijanja': 'grijanje_outlier',
+        'lokacija': 'lokacija_outlier_1',
+        'godina_izgradnje': 'godina_izgradnje_outlier_1'
+    }[selectedValue];
+
+    if (tableId) {
+        document.getElementById(tableId).style.display = 'table';
+    }
+});
+document.getElementById('kriterij_outlier').dispatchEvent(new Event('change'));
 
 izbrisiFormuZaHistogram();
 //izbrisiFormuZaOstalo();

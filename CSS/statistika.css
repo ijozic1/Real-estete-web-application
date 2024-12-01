@@ -38,7 +38,7 @@ iframe {
 
 #dodatne_info_wrapper{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     gap: 40px;
     justify-content: left;
@@ -88,7 +88,12 @@ select {
    background-color: #d4a62a;
 }
 
+input{
+    height: 25px;
+}
+
 #podaci table{
+    display: none;
     width: 100%;
     border-collapse: collapse;
 }
@@ -111,6 +116,7 @@ select {
     color: #80520e;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    height: 25px;
 }
 
 #unos button:hover{
