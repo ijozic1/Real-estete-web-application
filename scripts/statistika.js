@@ -362,7 +362,7 @@ function popuniDropdownKorisnik(idDropdown) {
 
     const praznaOpcija = document.createElement("option");
     praznaOpcija.value = "";
-    praznaOpcija.textContent = "";
+    praznaOpcija.textContent = "Odaberite korisnika";
     dropdown.appendChild(praznaOpcija);
 
     listaKorisnika.forEach(korisnik => {
@@ -552,6 +552,15 @@ function prikaziOutlier(){
 //metode za moje nekretnine
 function prikaziMojeNekretnine(){
     let korisnik= document.getElementById("korisnici_dropdown");
+
+    const odabranaVrijednost = korisnik.value;
+
+    // ako odabere praznu opciju
+    if (odabranaVrijednost === "") {
+        alert("Molimo odaberite korisnika!");
+        return;
+    }
+
     const korisnikJSON = JSON.parse(korisnik.value);
 
     if(!korisnikJSON){
