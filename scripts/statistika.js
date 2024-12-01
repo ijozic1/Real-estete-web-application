@@ -279,7 +279,11 @@ const listaKorisnika = [
     },
 ]
 
-//metode za kvadraturu
+resetujFormuZaKvadraturu();
+resetujFormuZaOutlier();
+izbrisiFormuZaHistogram();
+
+//prikaz kvadratura
 document.getElementById('kriterij_kvadratura').addEventListener('change', function () {
     // sakrij sve tabele
     const allTables = [
@@ -313,7 +317,7 @@ document.getElementById('kriterij_kvadratura').addEventListener('change', functi
 document.getElementById('kriterij_kvadratura').dispatchEvent(new Event('change'));
 
 
-//metode za outlier
+//prikaz outlier
 document.getElementById('kriterij_outlier').addEventListener('change', function () {
     // sakrij sve tabele
     const allTables = [
@@ -347,7 +351,7 @@ document.getElementById('kriterij_outlier').addEventListener('change', function 
 document.getElementById('kriterij_outlier').dispatchEvent(new Event('change'));
 
 
-// metode za moje nekretnine
+// prikaz moje nekretnine
 function popuniDropdownKorisnik(idDropdown) {
     const dropdown = document.getElementById(idDropdown);
 
@@ -375,10 +379,50 @@ document.addEventListener("DOMContentLoaded", () => {
     popuniDropdownKorisnik("korisnici_dropdown");
 });
 
+function resetFormu(formaId){
+    const forma = document.getElementById(formaId);
+    if (forma) {
+        const inputs = forma.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                input.checked = false;
+            } else {
+                input.value = '';
+            }
+        });
+    }
+}
 
-izbrisiFormuZaHistogram();
+function obrisiSadrzajDiva(divId){
+    const div = document.getElementById(divId);
+    if (div) {
+        const dataFields = div.querySelectorAll('.data, ul');
+        dataFields.forEach(field => {
+            if (field.tagName === 'UL') {
+                field.innerHTML = ''; 
+            } else {
+                field.textContent = ''; //za td
+            }
+        });
+    }
+}
+
+//metode za kvadraturu
+function resetujFormuZaKvadraturu(){
+    obrisiSadrzajDiva("prosjecna_kvadratura");
+    obrisiSadrzajDiva("podaci");
+    kvadraturaKriterij = {};
+}
+
+//metode za outlier
+function resetujFormuZaOutlier(){
+    obrisiSadrzajDiva("outlier");
+    obrisiSadrzajDiva("podaci");
+    outlierKriterij = {};
+}
 
 
+//metode za histogram
 function izbrisiFormuZaHistogram(){
     let godine = document.getElementById("rangovi_godina");
     let cijene = document.getElementById("rangovi_cijena");
@@ -407,35 +451,6 @@ function izbrisiFormuZaHistogram(){
         histogramCijeneData.length = 0;
     }
 }
-
-/*function izbrisiFormuZaOstalo(){
-    document.getElementById("stan").checked = false;
-    document.getElementById("kuca").checked = false;
-    document.getElementById("poslovni_prostor").checked = false;
-
-    document.getElementById("min_kvadratura").value = "";
-    document.getElementById("max_kvadratura").value = "";
-
-    document.getElementById("lokacija").value = "";
-    
-    document.getElementById("plin").checked=false;
-    document.getElementById("toplana").checked=false;
-    document.getElementById("struja").checked=false;
-
-    document.getElementById("godina_izgradnje").value = "";
-
-    document.getElementById("cijena_od_ostalo").value = "";
-    document.getElementById("cijena_do_ostalo").value = "";
-
-    document.getElementById("korisnici_dropdown").value = "";
-
-    //document.getElementById("ostalo").innerHTML = "";
-}*/
-
-function prikaziPodatkeOstalo(){
-
-}
-
 
 function ponistiUnosGodine(){
     document.getElementById("godina_od").value = "";
