@@ -407,6 +407,105 @@ function obrisiSadrzajDiva(divId){
     }
 }
 
+function dodajKriterij(tip){
+    if(tip==="kvadratura"){
+        let odabraniKriterij = document.getElementById("kriterij_kvadratura").value;
+        let odabranaVrijednost;
+        switch(odabraniKriterij){
+            case "tip_nekretnine":
+                odabranaVrijednost= document.getElementById("tip_nekretnine_dropdown_kvadratura_1").value;
+                break;
+            case "kvadratura":
+                odabranaVrijednost = document.getElementById("kvadratura_od_za_prosjek").value;
+                if(odabranaVrijednost && !isNaN(odabranaVrijednost) && !kvadraturaKriterij["min_kvadratura"]){
+                    kvadraturaKriterij["min_kvadratura"] = odabranaVrijednost; 
+                }
+
+                odabranaVrijednost = document.getElementById("kvadratura_do_za_prosjek").value;
+                if(odabranaVrijednost && !isNaN(odabranaVrijednost) && !kvadraturaKriterij["max_kvadratura"]){
+                    kvadraturaKriterij["max_kvadratura"] = odabranaVrijednost; 
+                }
+                return;
+                break;
+            case "cijena":
+                odabranaVrijednost = document.getElementById("cijena_od_za_prosjek").value;
+                if(odabranaVrijednost && !isNaN(odabranaVrijednost) && !kvadraturaKriterij["min_cijena"]){
+                    kvadraturaKriterij["min_cijena"] = odabranaVrijednost; 
+                }
+
+                odabranaVrijednost = document.getElementById("cijena_do_za_prosjek").value;
+                if(odabranaVrijednost && !isNaN(odabranaVrijednost) && !kvadraturaKriterij["max_cijena"]){
+                    kvadraturaKriterij["max_cijena"] = odabranaVrijednost; 
+                }
+                return;
+                break;
+            case "tip_grijanja":
+                odabranaVrijednost = document.getElementById("grijanje_dropdown_kvadratura").value;
+                break;
+            case "lokacija":
+                odabranaVrijednost = document.getElementById("lokacija_prosjek").value;
+                break;
+            case "godina_izgradnje":
+                odabranaVrijednost = document.getElementById("godina_izgradnje_prosjek").value;
+                break;
+            default:
+                break;
+        }
+        if(odabranaVrijednost && !kvadraturaKriterij[odabraniKriterij]){
+            kvadraturaKriterij[odabraniKriterij] = odabranaVrijednost;
+            return;
+        }
+    }
+    else{
+        let odabraniKriterij = document.getElementById("kriterij_outlier").value;
+        let odabranaVrijednost;
+        switch(odabraniKriterij){
+            case "tip_nekretnine":
+                odabranaVrijednost= document.getElementById("tip_nekretnine_dropdown_oulier_1").value;
+                break;
+            case "kvadratura":
+                odabranaVrijednost = document.getElementById("kvadratura_od_za_outlier").value;
+                if(odabranaVrijednost && !isNaN(odabranaVrijednost) && !outlierKriterij["min_kvadratura"]){
+                    outlierKriterij["min_kvadratura"] = odabranaVrijednost; 
+                }
+
+                odabranaVrijednost = document.getElementById("kvadratura_do_za_outlier").value;
+                if(odabranaVrijednost && !isNaN(odabranaVrijednost) && !outlierKriterij["max_kvadratura"]){
+                    outlierKriterij["max_kvadratura"] = odabranaVrijednost; 
+                }
+                return;
+                break;
+            case "cijena":
+                odabranaVrijednost = document.getElementById("cijena_od_za_outlier").value;
+                if(odabranaVrijednost && !isNaN(odabranaVrijednost) && !outlierKriterij["min_cijena"]){
+                    outlierKriterij["min_cijena"] = odabranaVrijednost; 
+                }
+
+                odabranaVrijednost = document.getElementById("cijena_do_za_outlier").value;
+                if(odabranaVrijednost && !isNaN(odabranaVrijednost) && !outlierKriterij["max_cijena"]){
+                    outlierKriterij["max_cijena"] = odabranaVrijednost; 
+                }
+                return;
+                break;
+            case "tip_grijanja":
+                odabranaVrijednost = document.getElementById("grijanje_dropdown_outlier").value;
+                break;
+            case "lokacija":
+                odabranaVrijednost = document.getElementById("lokacija_outlier").value;
+                break;
+            case "godina_izgradnje":
+                odabranaVrijednost = document.getElementById("godina_izgradnje_outlier").value;
+                break;
+            default:
+                break;
+        }
+        if(odabranaVrijednost && !outlierKriterij[odabraniKriterij]){
+            outlierKriterij[odabraniKriterij] = odabranaVrijednost;
+            return;
+        }
+    }
+}
+
 //metode za kvadraturu
 function resetujFormuZaKvadraturu(){
     obrisiSadrzajDiva("prosjecna_kvadratura");
