@@ -407,6 +407,13 @@ function obrisiSadrzajDiva(divId){
     }
 }
 
+function ulDodajItem(div, item){
+    let li = document.createElement("li");
+    li.innerHTML = item;
+    li.id = "li_";
+    div.appendChild(li);
+}
+
 function dodajKriterij(tip){
     if(tip==="kvadratura"){
         let odabraniKriterij = document.getElementById("kriterij_kvadratura").value;
@@ -513,11 +520,37 @@ function resetujFormuZaKvadraturu(){
     kvadraturaKriterij = {};
 }
 
+function izracunajProsjecnuKvadraturu(){
+    let kriterij= kvadraturaKriterij;
+    let prosjek = statistikaNekretnina.prosjecnaKvadratura(kriterij);
+    //document.getElementById("prosjecna_kvadratura_prikaz").textContent = prosjek;
+    document.getElementById("prosjecna_kvadratura").innerHTML = `<p>${prosjek}</p>`;
+}
+
 //metode za outlier
 function resetujFormuZaOutlier(){
     obrisiSadrzajDiva("outlier");
     obrisiSadrzajDiva("podaci");
     outlierKriterij = {};
+}
+
+function prikaziOutlier(){
+    let kriterij = outlierKriterij;
+    let svojstvo = document.getElementById("svojstvo_outlier").value;
+    let outlier = statistikaNekretnina.outlier(kriterij, svojstvo);
+    //document.getElementById("outlier_prikaz").textContent = outlier;
+    document.getElementById("outlier_po_kriteriju").innerHTML = `<p>${outlier}</p>`;
+}
+
+//metode za moje nekretnine
+function prikaziMojeNekretnine(){
+    let korisnik= document.getElementById("korisnici_dropdown").value;
+    let nekretnine = statistikaNekretnina.mojeNekretnine(korisnik);
+
+    nekretnine.foreach(nekretnina => {
+        let item = `${nekretnina.naziv} (${nekretnina.tip_nekretnine})`;
+        ulDodajItem("moje_nekretnine_lista", item);
+    });
 }
 
 
@@ -559,13 +592,6 @@ function ponistiUnosGodine(){
 function ponistiUnosCijene(){
     document.getElementById("cijena_od").value = "";
     document.getElementById("cijena_do").value = "";
-}
-
-function ulDodajItem(div, item){
-    let li = document.createElement("li");
-    li.innerHTML = item;
-    li.id = "li_";
-    div.appendChild(li);
 }
 
 function dodajGodinu(){
