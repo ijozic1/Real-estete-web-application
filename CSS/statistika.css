@@ -92,10 +92,28 @@ input{
     height: 25px;
 }
 
-#podaci table{
+#podaci{
     display: none;
     width: 100%;
     border-collapse: collapse;
+    margin-left: 10px;
+}
+
+#tabela_podaci{
+    padding: 10px;
+}
+
+#tabela_podaci td{
+    width: 450px;
+}
+
+#tabela_podaci tr{
+    text-align: left;
+}
+
+#podaci #tabela_podaci ul li{
+    /*list-style: none;*/
+    text-align: left;
 }
 
 #unos{

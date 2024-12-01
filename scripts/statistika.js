@@ -23,8 +23,8 @@ const prikaziHistoBtn = document.getElementById("prikazi_histogram");
 const statistikaNekretnina = StatistikaNekretnina();
 const spisakNekretnina = SpisakNekretnina();
 
-const kvadraturaKriterij ={};
-const outlierKriterij = {};
+let kvadraturaKriterij ={};
+let outlierKriterij = {};
 
 const histogramCijeneData = [];
 const histogramGodinaData = [];
@@ -220,7 +220,7 @@ const listaNekretnina = [
         opis: "Opis poslovnog prostora sa id 7",
         upiti:[
             {
-                korisnik_id: 1,
+                korisnik_id: 2,
                 tekst_upita: "Tekst upita 1"
             }
         ]
@@ -367,7 +367,8 @@ function popuniDropdownKorisnik(idDropdown) {
 
     listaKorisnika.forEach(korisnik => {
         const opcija = document.createElement("option");
-        opcija.value = korisnik.id; 
+        opcija.value = JSON.stringify(korisnik);
+        //opcija.value = korisnik.id; 
         opcija.textContent = `${korisnik.ime} ${korisnik.prezime} (${korisnik.username})`;
         dropdown.appendChild(opcija);
     });
@@ -412,6 +413,12 @@ function ulDodajItem(div, item){
     li.innerHTML = item;
     li.id = "li_";
     div.appendChild(li);
+}
+
+function ulDodajItemNekretnina(ulElement, item) {
+    const li = document.createElement("li");
+    li.innerHTML = item;
+    ulElement.appendChild(li);
 }
 
 function dodajKriterij(tip){
@@ -468,7 +475,7 @@ function dodajKriterij(tip){
         let odabranaVrijednost;
         switch(odabraniKriterij){
             case "tip_nekretnine":
-                odabranaVrijednost= document.getElementById("tip_nekretnine_dropdown_oulier_1").value;
+                odabranaVrijednost= document.getElementById("tip_nekretnine_dropdown_outlier_1").value;
                 break;
             case "kvadratura":
                 odabranaVrijednost = document.getElementById("kvadratura_od_za_outlier").value;
@@ -544,13 +551,30 @@ function prikaziOutlier(){
 
 //metode za moje nekretnine
 function prikaziMojeNekretnine(){
-    let korisnik= document.getElementById("korisnici_dropdown").value;
-    let nekretnine = statistikaNekretnina.mojeNekretnine(korisnik);
+    let korisnik= document.getElementById("korisnici_dropdown");
+    const korisnikJSON = JSON.parse(korisnik.value);
 
-    nekretnine.foreach(nekretnina => {
+    if(!korisnikJSON){
+        alert("Morate odabrati korisnika!");
+        return;
+    }
+
+    let nekretnine = statistikaNekretnina.mojeNekretnine(korisnikJSON);
+
+    if(nekretnine.length === 0){
+        alert("Korisnik nema nekretnina!");
+        return;
+    }
+
+    const ul = document.getElementById("moje_nekretnine_lista");
+    ul.innerHTML = "";
+
+    nekretnine.forEach(nekretnina => {
         let item = `${nekretnina.naziv} (${nekretnina.tip_nekretnine})`;
-        ulDodajItem("moje_nekretnine_lista", item);
+        ulDodajItemNekretnina(ul, item);
     });
+
+    document.getElementById("podaci").style.display = "grid";
 }
 
 

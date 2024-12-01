@@ -57,7 +57,7 @@ let StatistikaNekretnina = function (){
                     upit.korisnik_id === korisnik.id)); 
 
         //sortiranje po broju upita
-        listaNekretninaKojeSadrzeUpitKorisnika.sort((a, b) => {return a.upiti.length > b.upiti.length});
+        listaNekretninaKojeSadrzeUpitKorisnika.sort((a, b) => {return a.upiti.length < b.upiti.length});
                     
         return listaNekretninaKojeSadrzeUpitKorisnika;
     }
