@@ -23,8 +23,27 @@ const prikaziHistoBtn = document.getElementById("prikazi_histogram");
 const statistikaNekretnina = StatistikaNekretnina();
 const spisakNekretnina = SpisakNekretnina();
 
-let kvadraturaKriterij ={};
-let outlierKriterij = {};
+let kvadraturaKriterij ={
+    tip_nekretnine: undefined,
+    min_kvadratura: undefined,
+    max_kvadratura: undefined,
+    min_cijena: undefined,
+    max_cijena: undefined,
+    tip_grijanja: undefined,
+    lokacija: undefined,
+    godina_izgradnje: undefined
+};
+
+let outlierKriterij = {
+    tip_nekretnine: undefined,
+    min_kvadratura: undefined,
+    max_kvadratura: undefined,
+    min_cijena: undefined,
+    max_cijena: undefined,
+    tip_grijanja: undefined,
+    lokacija: undefined,
+    godina_izgradnje: undefined
+};
 
 const histogramCijeneData = [];
 const histogramGodinaData = [];
@@ -524,21 +543,40 @@ function dodajKriterij(tip){
 function resetujFormuZaKvadraturu(){
     obrisiSadrzajDiva("prosjecna_kvadratura");
     obrisiSadrzajDiva("podaci");
-    kvadraturaKriterij = {};
+    kvadraturaKriterij ={
+        tip_nekretnine: undefined,
+        min_kvadratura: undefined,
+        max_kvadratura: undefined,
+        min_cijena: undefined,
+        max_cijena: undefined,
+        tip_grijanja: undefined,
+        lokacija: undefined,
+        godina_izgradnje: undefined
+    };
 }
 
 function izracunajProsjecnuKvadraturu(){
     let kriterij= kvadraturaKriterij;
     let prosjek = statistikaNekretnina.prosjecnaKvadratura(kriterij);
     //document.getElementById("prosjecna_kvadratura_prikaz").textContent = prosjek;
-    document.getElementById("prosjecna_kvadratura").innerHTML = `<p>${prosjek}</p>`;
+    document.getElementById("prosjecna_kvadratura_prikaz").innerHTML = `<p>${prosjek}</p>`;
+    document.getElementById("podaci").style.display = "grid";
 }
 
 //metode za outlier
 function resetujFormuZaOutlier(){
     obrisiSadrzajDiva("outlier");
     obrisiSadrzajDiva("podaci");
-    outlierKriterij = {};
+    outlierKriterij = {
+        tip_nekretnine: undefined,
+        min_kvadratura: undefined,
+        max_kvadratura: undefined,
+        min_cijena: undefined,
+        max_cijena: undefined,
+        tip_grijanja: undefined,
+        lokacija: undefined,
+        godina_izgradnje: undefined
+    };
 }
 
 function prikaziOutlier(){
@@ -547,6 +585,7 @@ function prikaziOutlier(){
     let outlier = statistikaNekretnina.outlier(kriterij, svojstvo);
     //document.getElementById("outlier_prikaz").textContent = outlier;
     document.getElementById("outlier_po_kriteriju").innerHTML = `<p>${outlier}</p>`;
+    document.getElementById("podaci").style.display = "grid";
 }
 
 //metode za moje nekretnine

@@ -106,6 +106,7 @@ input{
 
 #tabela_podaci td{
     width: 450px;
+    text-align: left;
 }
 
 #tabela_podaci tr{

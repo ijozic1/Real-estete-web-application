@@ -30,7 +30,9 @@ let StatistikaNekretnina = function (){
     }
 
     let outlier = function(kriterij, nazivSvojstva){
-        if(!nazivSvojstva.isNumber()) 
+        /*if(!nazivSvojstva.isNumber()) 
+            return undefined;*/
+        if(nazivSvojstva !== 'kvadratura' && nazivSvojstva !== 'cijena' && nazivSvojstva !== 'godina_izgradnje')
             return undefined;
         
         let listaNekretninaPoKriteriju = spisakNekretnina.filtrirajNekretnine(kriterij);

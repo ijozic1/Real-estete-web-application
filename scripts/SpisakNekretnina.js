@@ -1,17 +1,17 @@
 let SpisakNekretnina = function () {
     //privatni atributi modula
-    let listaNekretnina = [];
-    let listaKorisnika = [];
+    let listaNekretninaSN = [];
+    let listaKorisnikaSN = [];
 
 
     //implementacija metoda
     let init = function (listaNekretnina, listaKorisnika) {
-        this.listaNekretnina = listaNekretnina;
-        this.listaKorisnika = listaKorisnika;
+        /*this.*/listaNekretninaSN = listaNekretnina;
+        /*this.*/listaKorisnikaSN = listaKorisnika;
     }
 
     let filtrirajNekretnine = function (kriterij) {
-        return this.listaNekretnina.filter(nekretnina => {
+        return /*this.*/listaNekretnina.filter(nekretnina => {
             // Filtriranje po tipu nekretnine
             if (kriterij.tip_nekretnine && nekretnina.tip_nekretnine !== kriterij.tip_nekretnine) {
                 return false;
