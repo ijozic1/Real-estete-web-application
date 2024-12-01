@@ -50,12 +50,12 @@ const histogramGodinaData = [];
 
 
 //event listeneri kvadratura
-kvadraturaDodajKriterijBtn.addEventListener("click", dodajKriterij("kvadratura"));
+kvadraturaDodajKriterijBtn.addEventListener("click", dodajKriterijKvadratura);
 kvadraturaPrikaziBtn.addEventListener("click", izracunajProsjecnuKvadraturu);
 kvadraturaResetBtn.addEventListener("click", resetujFormuZaKvadraturu);
 
 //event listeneri outlier
-outlierDodajKriterijBtn.addEventListener("click", dodajKriterij("outlier"));
+outlierDodajKriterijBtn.addEventListener("click", dodajKriterijOutlier);
 outlierPrikaziBtn.addEventListener("click", prikaziOutlier);
 outlierResetBtn.addEventListener("click", resetujFormuZaOutlier);
 
@@ -298,7 +298,7 @@ const listaKorisnika = [
     },
 ]
 
-statistikaNekretnina.init(listaNekretnina, spisakNekretnina);
+statistikaNekretnina.init(listaNekretnina, listaKorisnika);
 spisakNekretnina.init(listaNekretnina, listaKorisnika);
 
 resetujFormuZaKvadraturu();
@@ -443,106 +443,105 @@ function ulDodajItemNekretnina(ulElement, item) {
     ulElement.appendChild(li);
 }
 
-function dodajKriterij(tip){
-    if(tip==="kvadratura"){
-        let odabraniKriterij = document.getElementById("kriterij_kvadratura").value;
-        let odabranaVrijednost;
+function dodajKriterijKvadratura(){
+    let odabraniKriterij = document.getElementById("kriterij_kvadratura").value;
+    let odabranaVrijednost;
 
-        switch(odabraniKriterij){
-            case "tip_nekretnine":
-                odabranaVrijednost= document.getElementById("tip_nekretnine_dropdown_kvadratura_1").value;
-                break;
-            case "kvadratura":
-                let minKvadratura = document.getElementById("kvadratura_od_za_prosjek").value;
-                let maxKvadratura = document.getElementById("kvadratura_do_za_prosjek").value;
+    switch(odabraniKriterij){
+        case "tip_nekretnine":
+            odabranaVrijednost= document.getElementById("tip_nekretnine_dropdown_kvadratura_1").value;
+            break;
+        case "kvadratura":
+            let minKvadratura = document.getElementById("kvadratura_od_za_prosjek").value;
+            let maxKvadratura = document.getElementById("kvadratura_do_za_prosjek").value;
 
-                if(minKvadratura && !isNaN(minKvadratura) && kvadraturaKriterij["min_kvadratura"] === undefined){
-                    kvadraturaKriterij["min_kvadratura"] = parseInt(minKvadratura); 
-                }
+            if(minKvadratura && !isNaN(minKvadratura) && kvadraturaKriterij["min_kvadratura"] === undefined){
+                kvadraturaKriterij["min_kvadratura"] = parseInt(minKvadratura); 
+            }
 
-                if(maxKvadratura && !isNaN(maxKvadratura) && kvadraturaKriterij["max_kvadratura"] === undefined){
-                    kvadraturaKriterij["max_kvadratura"] = parseInt(maxKvadratura); 
-                }
-                break;
-            case "cijena":
-                let minCijena = document.getElementById("cijena_od_za_prosjek").value;
-                let maxCijena = document.getElementById("cijena_do_za_prosjek").value;
+            if(maxKvadratura && !isNaN(maxKvadratura) && kvadraturaKriterij["max_kvadratura"] === undefined){
+                kvadraturaKriterij["max_kvadratura"] = parseInt(maxKvadratura); 
+            }
+            break;
+        case "cijena":
+            let minCijena = document.getElementById("cijena_od_za_prosjek").value;
+            let maxCijena = document.getElementById("cijena_do_za_prosjek").value;
 
-                if(minCijena && !isNaN(minCijena) && kvadraturaKriterij["min_cijena"] === undefined){
-                    kvadraturaKriterij["min_cijena"] = parseInt(minCijena); 
-                }
+            if(minCijena && !isNaN(minCijena) && kvadraturaKriterij["min_cijena"] === undefined){
+                kvadraturaKriterij["min_cijena"] = parseInt(minCijena); 
+            }
 
-                if(maxCijena && !isNaN(maxCijena) && kvadraturaKriterij["max_cijena"] === undefined){
-                    kvadraturaKriterij["max_cijena"] = parseInt(maxCijena); 
-                }
-                break;
-            case "tip_grijanja":
-                odabranaVrijednost = document.getElementById("grijanje_dropdown_kvadratura").value;
-                break;
-            case "lokacija":
-                odabranaVrijednost = document.getElementById("lokacija_prosjek").value;
-                break;
-            case "godina_izgradnje":
-                odabranaVrijednost = document.getElementById("godina_izgradnje_prosjek").value;
-                break;
-            default:
-                break;
-        }
-        if(odabranaVrijednost && kvadraturaKriterij[odabraniKriterij]===undefined){
-            kvadraturaKriterij[odabraniKriterij] = odabranaVrijednost;
-        }
-        console.log("Ažurirani kriteriji:", kvadraturaKriterij);
-        return;
+            if(maxCijena && !isNaN(maxCijena) && kvadraturaKriterij["max_cijena"] === undefined){
+                kvadraturaKriterij["max_cijena"] = parseInt(maxCijena); 
+            }
+            break;
+        case "tip_grijanja":
+            odabranaVrijednost = document.getElementById("grijanje_dropdown_kvadratura").value;
+            break;
+        case "lokacija":
+            odabranaVrijednost = document.getElementById("lokacija_prosjek").value;
+            break;
+        case "godina_izgradnje":
+            odabranaVrijednost = document.getElementById("godina_izgradnje_prosjek").value;
+            break;
+        default:
+            break;
     }
-    else{
-        let odabraniKriterij = document.getElementById("kriterij_outlier").value;
-        let odabranaVrijednost;
-        switch(odabraniKriterij){
-            case "tip_nekretnine":
-                odabranaVrijednost= document.getElementById("tip_nekretnine_dropdown_outlier_1").value;
-                break;
-            case "kvadratura":
-                let minKvadratura = document.getElementById("kvadratura_od_za_outlier").value;
-                let maxKvadratura = document.getElementById("kvadratura_do_za_outlier").value;
+    if(odabranaVrijednost && kvadraturaKriterij[odabraniKriterij]===undefined){
+        kvadraturaKriterij[odabraniKriterij] = odabranaVrijednost;
+    }
+    console.log("Ažurirani kriteriji:", kvadraturaKriterij);
+    return;
+}
 
-                if(minKvadratura && !isNaN(minKvadratura) && kvadraturaKriterij["min_kvadratura"] === undefined){
-                    kvadraturaKriterij["min_kvadratura"] = parseInt(minKvadratura); 
-                }
+function dodajKriterijOutlier(){
+    let odabraniKriterij = document.getElementById("kriterij_outlier").value;
+    let odabranaVrijednost;
+    switch(odabraniKriterij){
+        case "tip_nekretnine":
+            odabranaVrijednost= document.getElementById("tip_nekretnine_dropdown_outlier_1").value;
+            break;
+        case "kvadratura":
+            let minKvadratura = document.getElementById("kvadratura_od_za_outlier").value;
+            let maxKvadratura = document.getElementById("kvadratura_do_za_outlier").value;
 
-                if(maxKvadratura && !isNaN(maxKvadratura) && kvadraturaKriterij["max_kvadratura"] === undefined){
-                    kvadraturaKriterij["max_kvadratura"] = parseInt(maxKvadratura); 
-                }
+            if(minKvadratura && !isNaN(minKvadratura) && kvadraturaKriterij["min_kvadratura"] === undefined){
+                kvadraturaKriterij["min_kvadratura"] = parseInt(minKvadratura); 
+            }
 
-                break;
-            case "cijena":
-                let minCijena = document.getElementById("cijena_od_za_outlier").value;
-                let maxCijena = document.getElementById("cijena_do_za_outlier").value;
+            if(maxKvadratura && !isNaN(maxKvadratura) && kvadraturaKriterij["max_kvadratura"] === undefined){
+                kvadraturaKriterij["max_kvadratura"] = parseInt(maxKvadratura); 
+            }
 
-                if(minCijena && !isNaN(minCijena) && kvadraturaKriterij["min_cijena"] === undefined){
-                    kvadraturaKriterij["min_cijena"] = parseInt(minCijena); 
-                }
+            break;
+        case "cijena":
+            let minCijena = document.getElementById("cijena_od_za_outlier").value;
+            let maxCijena = document.getElementById("cijena_do_za_outlier").value;
 
-                if(maxCijena && !isNaN(maxCijena) && kvadraturaKriterij["max_cijena"] === undefined){
-                    kvadraturaKriterij["max_cijena"] = parseInt(maxCijena); 
-                }
-                
-                break;
-            case "tip_grijanja":
-                odabranaVrijednost = document.getElementById("grijanje_dropdown_outlier").value;
-                break;
-            case "lokacija":
-                odabranaVrijednost = document.getElementById("lokacija_outlier").value;
-                break;
-            case "godina_izgradnje":
-                odabranaVrijednost = document.getElementById("godina_izgradnje_outlier").value;
-                break;
-            default:
-                break;
-        }
-        if(odabranaVrijednost && outlierKriterij[odabraniKriterij]===undefined){
-            outlierKriterij[odabraniKriterij] = odabranaVrijednost;
-            return;
-        }
+            if(minCijena && !isNaN(minCijena) && kvadraturaKriterij["min_cijena"] === undefined){
+                kvadraturaKriterij["min_cijena"] = parseInt(minCijena); 
+            }
+
+            if(maxCijena && !isNaN(maxCijena) && kvadraturaKriterij["max_cijena"] === undefined){
+                kvadraturaKriterij["max_cijena"] = parseInt(maxCijena); 
+            }
+            
+            break;
+        case "tip_grijanja":
+            odabranaVrijednost = document.getElementById("grijanje_dropdown_outlier").value;
+            break;
+        case "lokacija":
+            odabranaVrijednost = document.getElementById("lokacija_outlier").value;
+            break;
+        case "godina_izgradnje":
+            odabranaVrijednost = document.getElementById("godina_izgradnje_outlier").value;
+            break;
+        default:
+            break;
+    }
+    if(odabranaVrijednost && outlierKriterij[odabraniKriterij]===undefined){
+        outlierKriterij[odabraniKriterij] = odabranaVrijednost;
+        return;
     }
 }
 
