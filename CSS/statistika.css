@@ -59,15 +59,15 @@ iframe {
     align-items: center;
     box-shadow: 2px 2px 4px #000;
     width: 450px;
-    height: 200px;
-    padding: 50px;
+    height: 300px;
+    /*padding: 7px;*/
     margin-left: 20px;
     background-color: #f5ebdc;
     font-family: Arial, sans-serif;
 }
 
 select {
-    width: 175px;
+    width: 160px;
     padding: 5px;
     font-size: 15px; 
     font-family: Arial, sans-serif;
