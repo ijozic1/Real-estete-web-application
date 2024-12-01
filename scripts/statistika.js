@@ -541,8 +541,9 @@ function dodajKriterijOutlier(){
     }
     if(odabranaVrijednost && outlierKriterij[odabraniKriterij]===undefined){
         outlierKriterij[odabraniKriterij] = odabranaVrijednost;
-        return;
     }
+    console.log("Ažurirani kriteriji:", outlierKriterij);
+    return;
 }
 
 //metode za kvadraturu
@@ -563,6 +564,12 @@ function resetujFormuZaKvadraturu(){
 
 function izracunajProsjecnuKvadraturu(){
     let kriterij= kvadraturaKriterij;
+
+    if(Object.values(kriterij).every(value => value === undefined)){
+        alert("Morate unijeti bar jedan kriterij!");
+        return;
+    }
+
     let prosjek = statistikaNekretnina.prosjecnaKvadratura(kriterij);
     
     if (isNaN(prosjek) || prosjek === 0) {
@@ -594,10 +601,18 @@ function resetujFormuZaOutlier(){
 
 function prikaziOutlier(){
     let kriterij = outlierKriterij;
+
+    if(Object.values(kriterij).every(value => value === undefined)){
+        alert("Morate unijeti bar jedan kriterij!");
+        return;
+    }
+
     let svojstvo = document.getElementById("svojstvo_outlier").value;
+    console.log("Svojstvo:", svojstvo);
     let outlier = statistikaNekretnina.outlier(kriterij, svojstvo);
     //document.getElementById("outlier_prikaz").textContent = outlier;
-    document.getElementById("outlier_po_kriteriju").innerHTML = `<p>${outlier}</p>`;
+    //document.getElementById("outlier_po_kriteriju").innerHTML = `<p>${outlier}</p>`;
+    document.getElementById("outlier_po_kriteriju").innerHTML = `<p>${outlier.naziv} (${outlier[svojstvo]})</p>`;
     document.getElementById("podaci").style.display = "grid";
 }
 
