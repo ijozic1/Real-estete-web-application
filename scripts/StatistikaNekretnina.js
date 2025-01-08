@@ -36,7 +36,7 @@ let StatistikaNekretnina = function (){
             return undefined;
         
         let listaNekretninaPoKriteriju = spisakNekretnina.filtrirajNekretnine(kriterij);
-        let prosjek = prosjecnaVrijednostNekogSvojstva(kriterij, nazivSvojstva);
+        let prosjek = prosjecnaVrijednostNekogSvojstva(/*kriterij,*/ nazivSvojstva);
 
         let indexMaxOdstupanja = 0;
         let maxOdstupanje = 0;
@@ -79,8 +79,8 @@ let StatistikaNekretnina = function (){
                     return(
                         datumObjave >= period.od &&
                         datumObjave <= period.do &&
-                        cijena >= rasponCijena[0] &&
-                        cijena <= rasponCijena[1]
+                        cijena >= rasponCijena.od &&
+                        cijena <= rasponCijena.do
                     );
                 }).length;
 

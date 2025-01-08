@@ -505,12 +505,12 @@ function dodajKriterijOutlier(){
             let minKvadratura = document.getElementById("kvadratura_od_za_outlier").value;
             let maxKvadratura = document.getElementById("kvadratura_do_za_outlier").value;
 
-            if(minKvadratura && !isNaN(minKvadratura) && kvadraturaKriterij["min_kvadratura"] === undefined){
-                kvadraturaKriterij["min_kvadratura"] = parseInt(minKvadratura); 
+            if(minKvadratura && !isNaN(minKvadratura) && outlierKriterij["min_kvadratura"] === undefined){
+                outlierKriterij["min_kvadratura"] = parseInt(minKvadratura); 
             }
 
-            if(maxKvadratura && !isNaN(maxKvadratura) && kvadraturaKriterij["max_kvadratura"] === undefined){
-                kvadraturaKriterij["max_kvadratura"] = parseInt(maxKvadratura); 
+            if(maxKvadratura && !isNaN(maxKvadratura) && outlierKriterij["max_kvadratura"] === undefined){
+                outlierKriterij["max_kvadratura"] = parseInt(maxKvadratura); 
             }
 
             break;
@@ -518,12 +518,12 @@ function dodajKriterijOutlier(){
             let minCijena = document.getElementById("cijena_od_za_outlier").value;
             let maxCijena = document.getElementById("cijena_do_za_outlier").value;
 
-            if(minCijena && !isNaN(minCijena) && kvadraturaKriterij["min_cijena"] === undefined){
-                kvadraturaKriterij["min_cijena"] = parseInt(minCijena); 
+            if(minCijena && !isNaN(minCijena) && outlierKriterij["min_cijena"] === undefined){
+                outlierKriterij["min_cijena"] = parseInt(minCijena); 
             }
 
-            if(maxCijena && !isNaN(maxCijena) && kvadraturaKriterij["max_cijena"] === undefined){
-                kvadraturaKriterij["max_cijena"] = parseInt(maxCijena); 
+            if(maxCijena && !isNaN(maxCijena) && outlierKriterij["max_cijena"] === undefined){
+                outlierKriterij["max_cijena"] = parseInt(maxCijena); 
             }
             
             break;
