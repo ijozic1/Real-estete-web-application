@@ -1,13 +1,26 @@
 let SpisakNekretnina = function () {
     //privatni atributi modula
+
+    /*Prepravka S2
     let listaNekretninaSN = [];
     let listaKorisnikaSN = [];
+    */
+
+    /*U startu projekta*/
+    let listaNekretnina = [];
+    let listaKorisnika = [];
+    
 
 
     //implementacija metoda
     let init = function (listaNekretnina, listaKorisnika) {
-        /*this.*/listaNekretninaSN = listaNekretnina;
-        /*this.*/listaKorisnikaSN = listaKorisnika;
+        /*Prepravka S2
+        listaNekretninaSN = listaNekretnina;
+        listaKorisnikaSN = listaKorisnika;*/
+
+        /*U startu projekta*/
+        this.listaNekretnina = listaNekretnina;
+        this.listaKorisnika = listaKorisnika;
     }
 
     let filtrirajNekretnine = function (kriterij) {
