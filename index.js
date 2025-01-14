@@ -3,6 +3,7 @@ const session = require("express-session");
 const path = require('path');
 const fs = require('fs').promises; // Using asynchronus API for file read and write
 const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = 3000;
@@ -17,6 +18,7 @@ app.use(express.static(__dirname + '/public'));
 
 // Enable JSON parsing without body-parser
 app.use(express.json());
+app.use(bodyParser.json());
 
 /* ---------------- SERVING HTML -------------------- */
 
@@ -39,6 +41,8 @@ const routes = [
   { route: '/meni.html', file: 'meni.html' },
   { route: '/prijava.html', file: 'prijava.html' },
   { route: '/profil.html', file: 'profil.html' },
+  { route: '/vijesti.html', file: 'vijesti.html' },
+  { route: '/statistika.html', file: 'statistika.html' },
   // Practical for adding more .html files as the project grows
 ];
 
@@ -76,8 +80,32 @@ async function saveJsonFile(filename, data) {
 Checks if the user exists and if the password is correct based on korisnici.json data. 
 If the data is correct, the username is saved in the session and a success message is sent.
 */
+//Ovo je sa globalnim varijablama
+//let brojPokusaja = 0;
+//let blokiranoDo = null;
 app.post('/login', async (req, res) => {
   const jsonObj = req.body;
+  
+  const now = new Date(new Date().getTime() + 60601000); //+1 sat
+  const datumVrijeme = "["+ now.toISOString().split('T')[0] + "_" + now.toISOString().split('T')[1] + "]";
+  
+  /*if (blokiranoDo && Date.now() < blokiranoDo) {
+    await fs.appendFile('./data/prijave.txt', `${datumVrijeme} - username: ${jsonObj.username} - status: "neuspješno"\n`);
+    return res.status(429).json({ greska: "Previse neuspjesnih pokusaja. Pokusajte ponovo za 1 minutu." });
+  }*/
+  if(!req.session.loginAttempts) {
+    req.session.loginAttempts = 0;
+  }
+  if(!req.session.lockoutUntil) {
+    req.session.lockoutUntil = null;
+  }
+
+  let upravo = new Date();
+  if(req.session.lockoutUntil && upravo < new Date(req.session.lockoutUntil)) {                                                                                              
+    const preostaloVrijeme = Math.ceil((new Date(req.session.lockoutUntil) - new Date()) / 1000);
+    res.status(429).json({ greska: `Previse neuspjesnih pokusaja. Pokusajte ponovo za ${preostaloVrijeme} sekundi.` });
+    return;
+  }
 
   try {
     const data = await fs.readFile(path.join(__dirname, 'data', 'korisnici.json'), 'utf-8');
@@ -91,6 +119,8 @@ app.post('/login', async (req, res) => {
         if (isPasswordMatched) {
           req.session.username = korisnik.username;
           found = true;
+          //brojPokusaja = 0; //ovo mi ima smisla, tako funkcioniše u praksi
+          req.session.loginAttempts = 0;
           break;
         }
       }
@@ -98,10 +128,38 @@ app.post('/login', async (req, res) => {
 
     if (found) {
       res.json({ poruka: 'Uspješna prijava' });
-    } else {
-      res.json({ poruka: 'Neuspješna prijava' });
+    } 
+    else {
+      //brojPokusaja++;
+      req.session.loginAttempts++;
+
+      if(/*brojPokusaja*/req.session.loginAttempts >= 3){
+        //blokiranoDo = Date.now() + 60 * 1000; // Blokiranje na 1 minut
+        //brojPokusaja = 0;
+        req.session.lockoutUntil = new Date(new Date().getTime() + 60000);
+        req.session.loginAttempts = 0;
+        
+        res.status(429).json({ greska: "Previse neuspjesnih pokusaja.Pokusajte ponovo za 1 minutu." });
+        //console.log("3 puta pogrešan unos");
+        //res.json({ poruka: '3 puta pogrešan unos' });
+
+      }
+      else{
+        res.json({ poruka: 'Neuspješna prijava' });
+      }
     }
-  } catch (error) {
+
+    //spremanje u ../data/prijava.txt
+    //[datum_vrijeme] - username: "username" - status: "uspješno" ili "neuspješno"
+    let novaLinija = datumVrijeme + " - username: " + jsonObj.username + " - status: " + (found ? "uspješno" : "neuspješno");
+
+    await fs.appendFile('./data/prijave.txt', novaLinija + "\r\n", function(err){
+        if(err) 
+            throw err;
+    });
+
+  } 
+  catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ greska: 'Internal Server Error' });
   }
@@ -255,7 +313,8 @@ app.put('/korisnik', async (req, res) => {
     // Save the updated user data back to the JSON file
     await saveJsonFile('korisnici', users);
     res.status(200).json({ poruka: 'Podaci su uspješno ažurirani' });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error updating user data:', error);
     res.status(500).json({ greska: 'Internal Server Error' });
   }
