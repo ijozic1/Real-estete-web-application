@@ -295,6 +295,44 @@ app.post('/upit', async (req, res) => {
 });
 
 /*
+Returns all queries for the currently logged in user*/
+
+app.get('/upiti/moji', async (req, res) => {
+  if (!req.session.username) {
+    // User is not logged in
+    return res.status(401).json({ greska: 'Neautorizovan pristup' });
+  }
+
+  try {
+    const nekretnineData = await readJsonFile('nekretnine');
+    const usersData = await readJsonFile('korisnici');
+    const loggedInUser = usersData.find((user) => user.username === req.session.username);
+
+    var listaUpitaZaKorisnika = [];
+
+    for (const nekretnina of nekretnineData) {
+      const upitiKorisnika = nekretnina.upiti.filter((upit) => upit.korisnik_id === loggedInUser.id);
+      for (const upit of upitiKorisnika) {
+        listaUpitaZaKorisnika.push({
+          id_nekretnine: nekretnina.id,
+          tekst_upita: upit.tekst_upita
+        });
+      }
+    }
+    if(listaUpitaZaKorisnika.length == 0) {
+      res.status(404).json(listaUpitaZaKorisnika);
+      return;
+    }
+
+    res.status(200).json(listaUpitaZaKorisnika);
+  } 
+  catch (error) {
+    console.error('Error fetching queries:', error);
+    res.status(500).json({ greska: 'Internal Server Error' });
+  }
+});
+
+/*
 Updates any user field
 */
 app.put('/korisnik', async (req, res) => {
