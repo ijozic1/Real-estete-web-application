@@ -353,6 +353,7 @@ app.get('/nekretnine', async (req, res) => {
   }
 });
 
+/*Returns last 5 added properties on enetered location */
 app.get('/nekretnine/top5', async(req, res) => {
   try {
     const nekretnineData = await readJsonFile('nekretnine');
@@ -367,6 +368,31 @@ app.get('/nekretnine/top5', async(req, res) => {
     const top5 = sortedNekretnineNaUnesenojLokaciji.slice(0, 5);
 
     res.status(200).json(top5);
+  } 
+  catch (error) {
+    console.error('Error fetching properties data:', error);
+    res.status(500).json({ greska: 'Internal Server Error' });
+  }
+});
+
+/*Returns the property with certain id */
+app.get('/nekretnina/:id', async (req, res) => {
+  try {
+    const nekretnineData = await readJsonFile('nekretnine');
+    let nekretninaSaId = nekretnineData.find((nekretnina) => nekretnina.id === parseInt(req.params.id, 10));
+
+    //skracivanje liste upita na 3
+    if(nekretninaSaId && nekretninaSaId.upiti.length > 3){
+      nekretninaSaId.upiti = nekretninaSaId.upiti.slice(-3);
+      res.status(200).json(nekretninaSaId);
+    }
+    else if(nekretninaSaId){
+      res.status(200).json(nekretninaSaId);
+    }
+    else{
+      res.status(404).json({ greska: 'Nekretnina sa unesenim IDem ne postoji.' });
+      return;
+    }
   } 
   catch (error) {
     console.error('Error fetching properties data:', error);
