@@ -346,14 +346,32 @@ app.get('/nekretnine', async (req, res) => {
   try {
     const nekretnineData = await readJsonFile('nekretnine');
     res.json(nekretnineData);
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error fetching properties data:', error);
     res.status(500).json({ greska: 'Internal Server Error' });
   }
 });
 
 app.get('/nekretnine/top5', async(req, res) => {
+  try {
+    const nekretnineData = await readJsonFile('nekretnine');
+    const nekretnineNaUnesenojLokaciji = nekretnineData.filter((nekretnina) => nekretnina.lokacija === req.query.lokacija);
 
+    const sortedNekretnineNaUnesenojLokaciji = nekretnineNaUnesenojLokaciji.sort((a, b) => {
+      let prva = new Date(a.datum_objave.split(".").reverse().join("-"));
+      let druga = new Date(b.datum_objave.split(".").reverse().join("-"));
+      return druga - prva;
+    });
+
+    const top5 = sortedNekretnineNaUnesenojLokaciji.slice(0, 5);
+
+    res.status(200).json(top5);
+  } 
+  catch (error) {
+    console.error('Error fetching properties data:', error);
+    res.status(500).json({ greska: 'Internal Server Error' });
+  }
 });
 
 /* ----------------- MARKETING ROUTES ----------------- */
