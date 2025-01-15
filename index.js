@@ -139,7 +139,7 @@ app.post('/login', async (req, res) => {
         req.session.lockoutUntil = new Date(new Date().getTime() + 60000);
         req.session.loginAttempts = 0;
         
-        res.status(429).json({ greska: "Previse neuspjesnih pokusaja.Pokusajte ponovo za 1 minutu." });
+        res.status(429).json({ greska: "Previse neuspjesnih pokusaja. Pokusajte ponovo za 1 minutu." });
         //console.log("3 puta pogrešan unos");
         //res.json({ poruka: '3 puta pogrešan unos' });
 
@@ -233,7 +233,7 @@ Allows logged user to make a request for a property
 */
 app.post('/upit', async (req, res) => {
   // Check if the user is authenticated
-  if (!req.session.user) {
+  if (!req.session.username) {
     // User is not logged in
     return res.status(401).json({ greska: 'Neautorizovan pristup' });
   }
@@ -249,7 +249,7 @@ app.post('/upit', async (req, res) => {
     const nekretnine = await readJsonFile('nekretnine');
 
     // Find the user by username
-    const loggedInUser = users.find((user) => user.username === req.session.user.username);
+    const loggedInUser = users.find((user) => user.username === req.session.username);
 
     // Check if the property with nekretnina_id exists
     const nekretnina = nekretnine.find((property) => property.id === nekretnina_id);
@@ -259,17 +259,28 @@ app.post('/upit', async (req, res) => {
       return res.status(400).json({ greska: `Nekretnina sa id-em ${nekretnina_id} ne postoji` });
     }
 
+    if(!req.session.brojKorisnikovihUpita) {
+      req.session.brojKorisnikovihUpita = 0;
+    }
+
+    if(req.session.brojKorisnikovihUpita >= 3) {
+      res.status(429).json({ greska: 'Previse upita za istu nekretninu.' });
+      return;
+    }
+
     // Add a new query to the property's queries array
     nekretnina.upiti.push({
       korisnik_id: loggedInUser.id,
       tekst_upita: tekst_upita
     });
+    req.session.brojKorisnikovihUpita++;
 
     // Save the updated properties data back to the JSON file
     await saveJsonFile('nekretnine', nekretnine);
 
     res.status(200).json({ poruka: 'Upit je uspješno dodan' });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error processing query:', error);
     res.status(500).json({ greska: 'Internal Server Error' });
   }
