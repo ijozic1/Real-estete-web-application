@@ -105,7 +105,7 @@ app.post('/login', async (req, res) => {
     const preostaloVrijeme = Math.ceil((new Date(req.session.lockoutUntil) - new Date()) / 1000);
     res.status(429).json({ greska: `Previse neuspjesnih pokusaja. Pokusajte ponovo za ${preostaloVrijeme} sekundi.` });
 
-    let novaLinija = datumVrijeme + " - username: " + jsonObj.username + " - status: " + (found ? "uspješno" : "neuspješno");
+    let novaLinija = datumVrijeme + " - username: " + jsonObj.username + " - status: " + "neuspješno";
 
     await fs.appendFile('./data/prijave.txt', novaLinija + "\r\n", function(err){
         if(err) 
