@@ -104,6 +104,14 @@ app.post('/login', async (req, res) => {
   if(req.session.lockoutUntil && upravo < new Date(req.session.lockoutUntil)) {                                                                                              
     const preostaloVrijeme = Math.ceil((new Date(req.session.lockoutUntil) - new Date()) / 1000);
     res.status(429).json({ greska: `Previse neuspjesnih pokusaja. Pokusajte ponovo za ${preostaloVrijeme} sekundi.` });
+
+    let novaLinija = datumVrijeme + " - username: " + jsonObj.username + " - status: " + (found ? "uspješno" : "neuspješno");
+
+    await fs.appendFile('./data/prijave.txt', novaLinija + "\r\n", function(err){
+        if(err) 
+            throw err;
+    });
+    
     return;
   }
 
@@ -342,6 +350,10 @@ app.get('/nekretnine', async (req, res) => {
     console.error('Error fetching properties data:', error);
     res.status(500).json({ greska: 'Internal Server Error' });
   }
+});
+
+app.get('/nekretnine/top5', async(req, res) => {
+
 });
 
 /* ----------------- MARKETING ROUTES ----------------- */
