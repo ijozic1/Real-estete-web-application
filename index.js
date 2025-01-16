@@ -438,48 +438,62 @@ app.get('/nekretnina/:id', async (req, res) => {
   }
 });
 
-/*Returns the property with certain id and three user request depending on entered page*/
+/*Returns the three user requsts of the property with certain id depending on entered page*/
 app.get('/next/upiti/nekretnina/:id', async (req, res) => {
   try {
     const nekretnineData = await readJsonFile('nekretnine');
     let nekretninaSaID = nekretnineData.find((nekretnina) => nekretnina.id === parseInt(req.params.id, 10));
+    let listaUpita = [];
 
-    if(nekretninaSaID) {
+    if(nekretninaSaID){
+      listaUpita = nekretninaSaID.upiti;
+
       if(req.query.page < 0){
-        let pomocnaNekretnina = nekretninaSaID;
+        /*let pomocnaNekretnina = nekretninaSaID;
         pomocnaNekretnina.upiti = [];
-        res.status(404).json(pomocnaNekretnina);
+        res.status(404).json(pomocnaNekretnina);*/
+        res.status(404).json([]);
         return;
       }
       else if(req.query.page == 0) {
-        nekretninaSaID.upiti = nekretninaSaID.upiti.slice(-3);
+        /*nekretninaSaID.upiti = nekretninaSaID.upiti.slice(-3);
         
         if(nekretninaSaID.upiti.length == 0) {
           res.status(404).json(nekretninaSaID);
           return;
         }
+        res.status(200).json(nekretninaSaID);*/
 
-        res.status(200).json(nekretninaSaID);
+        if(listaUpita.length == 0){
+          res.status(404).json(listaUpita);
+          return;
+        }
+        res.status(200).json(listaUpita.slice(-3));
         return;
       }
       else if(req.query.page >= 1) {
-        nekretninaSaID.upiti = nekretninaSaID.upiti.reverse().slice(req.query.page * 3 , req.query.page * 3 + 3);
+        /*nekretninaSaID.upiti = nekretninaSaID.upiti.reverse().slice(req.query.page * 3 , req.query.page * 3 + 3);
         
         if(nekretninaSaID.upiti.length == 0) {
           res.status(404).json(nekretninaSaID);
           return;
         }
+        res.status(200).json(nekretninaSaID);*/
 
-        res.status(200).json(nekretninaSaID);
-        return;
-      }
-      else {
-        res.status(404).json({ greska: 'Nekrenina sa tim ID-jem ne postoji' });
+        if(listaUpita.length == 0){
+          res.status(404).json(listaUpita);
+          return;
+        }
+        res.status(200).json(listaUpita.reverse().slice(req.query.page * 3 , req.query.page * 3 + 3));
         return;
       }
     }
-  } 
-    catch (error) {
+    else {
+      res.status(404).json({ greska: 'Nekrenina sa tim ID-jem ne postoji' });
+      return;
+    }
+  }
+  catch (error) {
     console.error('Error fetching properties data:', error);
     res.status(500).json({ greska: 'Internal Server Error' });
   }
