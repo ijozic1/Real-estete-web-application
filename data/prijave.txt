@@ -7,3 +7,5 @@
 [2025-01-16_14:36:31.549Z] - username:  - status: neuspješno
 [2025-01-16_14:54:15.171Z] - username: ijozic1 - status: uspješno
 [2025-01-16_15:04:24.291Z] - username: ijozic1 - status: uspješno
+[2025-01-16_16:44:16.191Z] - username: ijozic1 - status: uspješno
+[2025-01-16_16:44:43.536Z] - username: ijozic1 - status: uspješno
