@@ -34,3 +34,30 @@ li a {
 li a:hover {
     color: #ff9900;
 }
+
+button {
+    margin-left: 30px;
+    background-color: #f0c14b;
+    border: 1px solid #000;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 80%;
+    text-align: center;
+    vertical-align: middle;
+    color: #80520e;
+    width: 80px;
+    height: 30px;
+    transition: background-color 0.3s ease;
+}
+  
+button:hover {
+    background-color: #d4a62a;
+}
+
+form{
+    padding: 10px;
+}
+
+form input{
+    margin-top: 10px;
+}
