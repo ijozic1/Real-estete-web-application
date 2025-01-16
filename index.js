@@ -438,6 +438,53 @@ app.get('/nekretnina/:id', async (req, res) => {
   }
 });
 
+/*Returns the property with certain id and three user request depending on entered page*/
+app.get('/next/upiti/nekretnina/:id', async (req, res) => {
+  try {
+    const nekretnineData = await readJsonFile('nekretnine');
+    let nekretninaSaID = nekretnineData.find((nekretnina) => nekretnina.id === parseInt(req.params.id, 10));
+
+    if(nekretninaSaID) {
+      if(req.query.page < 0){
+        let pomocnaNekretnina = nekretninaSaID;
+        pomocnaNekretnina.upiti = [];
+        res.status(404).json(pomocnaNekretnina);
+        return;
+      }
+      else if(req.query.page == 0) {
+        nekretninaSaID.upiti = nekretninaSaID.upiti.slice(-3);
+        
+        if(nekretninaSaID.upiti.length == 0) {
+          res.status(404).json(nekretninaSaID);
+          return;
+        }
+
+        res.status(200).json(nekretninaSaID);
+        return;
+      }
+      else if(req.query.page >= 1) {
+        nekretninaSaID.upiti = nekretninaSaID.upiti.reverse().slice(req.query.page * 3 , req.query.page * 3 + 3);
+        
+        if(nekretninaSaID.upiti.length == 0) {
+          res.status(404).json(nekretninaSaID);
+          return;
+        }
+
+        res.status(200).json(nekretninaSaID);
+        return;
+      }
+      else {
+        res.status(404).json({ greska: 'Nekrenina sa tim ID-jem ne postoji' });
+        return;
+      }
+    }
+  } 
+    catch (error) {
+    console.error('Error fetching properties data:', error);
+    res.status(500).json({ greska: 'Internal Server Error' });
+  }
+});
+
 /* ----------------- MARKETING ROUTES ----------------- */
 
 // Route that increments value of pretrage for one based on list of ids in nizNekretnina
