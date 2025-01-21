@@ -219,6 +219,22 @@ const PoziviAjax = (() => {
         ajax.send()
     }
 
+    function getNekretnina(nekretnina_id, fnCallback){
+        let ajax = new XMLHttpRequest()
+
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                fnCallback(null, JSON.parse(ajax.responseText))
+            }
+            else if (ajax.readyState == 4) {
+                //desio se neki error
+                fnCallback(ajax.statusText, null)
+            }
+        }
+        ajax.open("GET", `http://localhost:3000/nekretnina/${nekretnina_id}`, true)
+        ajax.send()
+    }
+
     return {
         postLogin: impl_postLogin,
         postLogout: impl_postLogout,
@@ -227,6 +243,7 @@ const PoziviAjax = (() => {
         postUpit: impl_postUpit,
         getNekretnine: impl_getNekretnine,
         getTop5Nekretnina: getTop5Nekretnina,
-        getMojiUpiti: getMojiUpiti
+        getMojiUpiti: getMojiUpiti,
+        getNekretnina: getNekretnina
     };
 })();
