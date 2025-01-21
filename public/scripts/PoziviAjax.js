@@ -187,6 +187,22 @@ const PoziviAjax = (() => {
         ajax.send()
     }
 
+    function getTop5Nekretnina(lokacija, fnCallback){
+        let ajax = new XMLHttpRequest()
+
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                fnCallback(null, JSON.parse(ajax.responseText))
+            }
+            else if (ajax.readyState == 4) {
+                //desio se neki error
+                fnCallback(ajax.statusText, null)
+            }
+        }
+        ajax.open("GET", "http://localhost:3000/nekretnine/top5/" + lokacija, true)
+        ajax.send()
+    }
+
     return {
         postLogin: impl_postLogin,
         postLogout: impl_postLogout,
