@@ -199,7 +199,7 @@ const PoziviAjax = (() => {
                 fnCallback(ajax.statusText, null)
             }
         }
-        ajax.open("GET", "http://localhost:3000/nekretnine/top5/" + lokacija, true)
+        ajax.open("GET", `http://localhost:3000/nekretnine/top5/${lokacija}`, true)
         ajax.send()
     }
 

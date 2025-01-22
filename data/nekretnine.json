@@ -18,6 +18,10 @@
             {
                 "korisnik_id": 2,
                 "tekst_upita": "Phasellus viverra nulla."
+            },
+            {
+                "korisnik_id": 3,
+                "tekst_upita": "Test nek1."
             }
         ]
     },
@@ -36,6 +40,10 @@
             {
                 "korisnik_id": 2,
                 "tekst_upita": "Integer tincidunt."
+            },
+            {
+                "korisnik_id": 3,
+                "tekst_upita": "Test nek2."
             }
         ]
     }

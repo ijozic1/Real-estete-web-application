@@ -13,3 +13,8 @@
 [2025-01-16_16:55:02.112Z] - username: ijozic1 - status: uspješno
 [2025-01-17_13:14:34.245Z] - username:  - status: neuspješno
 [2025-01-17_13:16:31.004Z] - username:  - status: neuspješno
+[2025-01-22_16:44:01.278Z] - username: ijozic1 - status: uspješno
+[2025-01-22_16:48:53.094Z] - username: ijozic1 - status: uspješno
+[2025-01-22_16:53:32.078Z] - username: ijozic1 - status: uspješno
+[2025-01-22_16:57:34.379Z] - username: ijozic1 - status: uspješno
+[2025-01-22_17:15:45.625Z] - username: ijozic1 - status: uspješno
