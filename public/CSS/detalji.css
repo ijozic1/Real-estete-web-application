@@ -174,11 +174,11 @@ iframe {
 }
 
 #top5-nekretnine li{
-  margin: 7px;
+  margin: 5px;
   padding: 10px;
   border: 1px solid black;
   background-color: #f0c14b;
   display: inline;
-  width: 20%;
+  width: 15%;
   text-align: center;
 }
