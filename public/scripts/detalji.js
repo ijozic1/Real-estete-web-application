@@ -32,14 +32,32 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('opis').innerHTML = `<p><strong>Opis:</strong> ${data.opis}</p>`;
 
         upiti = data.upiti;
-        
-        //mora tu jer inace se zavrsi prije nego se dobave upiti
-        const carousel = postaviCarousel(glavniElement, upiti);
 
-        if(carousel){
-            prethodni.addEventListener('click', carousel.fnLijevo);
-            sljedeci.addEventListener('click', carousel.fnDesno);
+        if(upiti.length == 0){
+            document.getElementById("upiti").innerHTML = `<div class="greske"><p>Nema postavljenih upita za ovu nekretninu.</p>`;
+            prethodni.style.display = 'none';
+            sljedeci.style.display = 'none';
         }
+        else if(upiti.length == 1){
+            glavniElement.innerHTML = `
+                <div class="upit">
+                    <p><strong>Id korisnika: </strong>${upiti[0].korisnik_id}</p>
+                    <p><strong>Tekst upita: </strong>${upiti[0].tekst_upita}</p>
+                </div>
+            `;
+            prethodni.style.display = 'none';
+            sljedeci.style.display = 'none';
+        }
+        else{
+            //mora tu jer inace se zavrsi prije nego se dobave upiti
+            const carousel = postaviCarousel(glavniElement, upiti);
+
+            if(carousel){
+                prethodni.addEventListener('click', carousel.fnLijevo);
+                sljedeci.addEventListener('click', carousel.fnDesno);
+            }
+        }
+        
 
 
         //lokacija
@@ -54,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
     
                 const top5Div = document.getElementById('top5-nekretnine');
-                let prikaz=`<br><h2>Top 5 nekretnina u istoj lokaciji</h2><br><ul>`;
+                let prikaz=`<br><h2>Posljednjih 5 objavljenih nekretnina na istoj lokaciji</h2><br><ul>`;
                 nekretnine.forEach(nekretnina => {
                     prikaz += `
                         <li><div class="nekretnina">

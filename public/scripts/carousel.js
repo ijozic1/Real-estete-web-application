@@ -28,9 +28,6 @@ function postaviCarousel(glavniElement, sviElementi, indeks=0) {
                 if(error){
                     if(error == "Not Found"){
                         //prazna lista upita
-                        if(page == 0){
-                            document.getElementById("upiti").innerHTML = `<div class="greske"><p>Nema postavljenih upita za ovu nekretninu.</p>`;
-                        }
                         dobavljeniSvi = true;
                         return;
                     }
@@ -52,9 +49,6 @@ function postaviCarousel(glavniElement, sviElementi, indeks=0) {
                 if(error){
                     if(error == "Not Found"){
                         //prazna lista upita
-                        if(page == 0){
-                            document.getElementById("upiti").innerHTML = `<div class="greske"><p>Nema postavljenih upita za ovu nekretninu.</p>`;
-                        }
                         dobavljeniSvi = true;
                         return;
                     }
