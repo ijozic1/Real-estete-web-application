@@ -24,7 +24,7 @@ let SpisakNekretnina = function () {
     }
 
     let filtrirajNekretnine = function (kriterij) {
-        return /*this.*/listaNekretnina.filter(nekretnina => {
+        return /*this.*/listaNekretninaSN.filter(nekretnina => {
             // Filtriranje po tipu nekretnine
             if (kriterij.tip_nekretnine && nekretnina.tip_nekretnine !== kriterij.tip_nekretnine) {
                 return false;

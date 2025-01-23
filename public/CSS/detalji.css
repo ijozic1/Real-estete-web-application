@@ -24,7 +24,7 @@ iframe {
 }
 
 #osnovno img {
-  max-width: 100%;
+  max-width: 40%;
   height: auto;
 }
 
@@ -77,19 +77,19 @@ iframe {
   background-color: white;
 }
 
-/*dva upita za sirine preko 800px*/
-@media (min-width: 801px) {
+/*S1: dva upita za sirine preko 800px*/
+/*@media (min-width: 801px) {
   .upit {
     flex: 1 1 45%;
   }
-}
+}*/
 
-/*jedan upit ako je sirina 600px do 800px*/
-@media (max-width: 800px) and (min-width: 600px) {
+/*S1: jedan upit ako je sirina 600px do 800px*/
+/*@media (max-width: 800px) and (min-width: 600px) {
   .upit {
     flex: 1 1 100%;
   }
-}
+}*/
 
 /*Dugmići*/
 #carousel-controls {
@@ -117,8 +117,8 @@ iframe {
   background-color: #d4a62a;
 }
 
-/*web carousel za sirinu manju od 600px*/
-@media (max-width: 599px) {
+/*S1: web carousel za sirinu manju od 600px*/
+/*media (max-width: 599px) {
   #upiti {
       flex-direction: column;
       overflow: hidden;
@@ -135,4 +135,50 @@ iframe {
   #carousel-controls {
       display: flex;
   }
+}*/
+
+/*Spirala 3 - carousel uvijek vidjljiv i prikazuje se samoo jedan upit*/
+#upiti {
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.upit {
+  display: none;
+}
+
+.upit:first-of-type {
+  display: block;
+}
+
+#carousel-controls {
+  display: flex;
+}
+
+.greske {
+  color: red;
+  font-weight: bold;
+}
+
+#top5-nekretnine h2{
+  text-align: center;
+  font-size: 35px;
+}
+
+#top5-nekretnine ul{
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+#top5-nekretnine li{
+  margin: 7px;
+  padding: 10px;
+  border: 1px solid black;
+  background-color: #f0c14b;
+  display: inline;
+  width: 20%;
+  text-align: center;
 }

@@ -57,6 +57,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
 
             const detaljiDugme = document.createElement('a');
             //detaljiDugme.href = '../HTML/detalji.html'; // hardkodiran html
+            detaljiDugme.href = `detalji.html?id=${nekretnina.id}`; // dinamicki generisan html
             detaljiDugme.classList.add('detalji-dugme');
             detaljiDugme.textContent = 'Detalji';
             detaljiDugme.addEventListener('click', function () {
@@ -124,7 +125,7 @@ function filtrirajOnClick() {
     filtrirajNekretnine(filtriraneNekretnine);
 }
 
-document.getElementById('dugmePretraga').addEventListener('click', filtrirajOnClick);
+//document.getElementById('dugmePretraga').addEventListener('click', filtrirajOnClick);
 
 setInterval(() => {
     MarketingAjax.osvjeziPretrage(document.getElementById('divNekretnine'));
