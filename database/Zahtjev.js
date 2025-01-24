@@ -1,0 +1,23 @@
+const Sequelize = require("sequelize");
+
+module.exports = function(sequelize, DataTypes){
+    const Zahtjev = sequelize.define('Zahtjev', {
+        korisnik_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        tekst: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        trazeniDatum: {
+            type: DataTypes.DATEONLY,
+            allowNull: false,
+        },
+        odobren: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+    })
+    return Zahtjev;
+};
