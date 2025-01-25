@@ -119,21 +119,19 @@ app.post('/login', async (req, res) => {
   }
 
   try {
-    const data = await fs.readFile(path.join(__dirname, 'data', 'korisnici.json'), 'utf-8');
-    const korisnici = JSON.parse(data);
+    //const data = await fs.readFile(path.join(__dirname, 'data', 'korisnici.json'), 'utf-8');
+    //const korisnici = JSON.parse(data);
+    const korisnik = await db.korisnik.findOne({ where: { username: jsonObj.username } });
     let found = false;
 
-    for (const korisnik of korisnici) {
-      if (korisnik.username == jsonObj.username) {
-        const isPasswordMatched = await bcrypt.compare(jsonObj.password, korisnik.password);
+    if (korisnik.username == jsonObj.username) {
+      const isPasswordMatched = await bcrypt.compare(jsonObj.password, korisnik.password);
 
-        if (isPasswordMatched) {
-          req.session.username = korisnik.username;
-          found = true;
-          //brojPokusaja = 0; //ovo mi ima smisla, tako funkcioniše u praksi
-          req.session.loginAttempts = 0;
-          break;
-        }
+      if (isPasswordMatched) {
+        req.session.username = korisnik.username;
+        found = true;
+        //brojPokusaja = 0; //ovo mi ima smisla, tako funkcioniše u praksi
+        req.session.loginAttempts = 0;
       }
     }
 

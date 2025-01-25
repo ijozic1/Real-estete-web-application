@@ -22,3 +22,5 @@
 [2025-01-23_13:04:18.343Z] - username: ijozic1 - status: uspješno
 [2025-01-23_13:10:16.568Z] - username: ijozic1 - status: uspješno
 [2025-01-23_13:33:23.864Z] - username: ijozic1 - status: uspješno
+[2025-01-26_12:32:01.209Z] - username: ijozic1 - status: neuspješno
+[2025-01-26_12:32:19.585Z] - username: ijozic1 - status: uspješno
