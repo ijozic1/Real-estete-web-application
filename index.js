@@ -83,19 +83,12 @@ async function saveJsonFile(filename, data) {
 Checks if the user exists and if the password is correct based on korisnici.json data. 
 If the data is correct, the username is saved in the session and a success message is sent.
 */
-//Ovo je sa globalnim varijablama
-//let brojPokusaja = 0;
-//let blokiranoDo = null;
 app.post('/login', async (req, res) => {
   const jsonObj = req.body;
   
   const now = new Date(new Date().getTime() + 60601000); //+1 sat
   const datumVrijeme = "["+ now.toISOString().split('T')[0] + "_" + now.toISOString().split('T')[1] + "]";
   
-  /*if (blokiranoDo && Date.now() < blokiranoDo) {
-    await fs.appendFile('./data/prijave.txt', `${datumVrijeme} - username: ${jsonObj.username} - status: "neuspješno"\n`);
-    return res.status(429).json({ greska: "Previse neuspjesnih pokusaja. Pokusajte ponovo za 1 minutu." });
-  }*/
   if(!req.session.loginAttempts) {
     req.session.loginAttempts = 0;
   }
@@ -119,8 +112,6 @@ app.post('/login', async (req, res) => {
   }
 
   try {
-    //const data = await fs.readFile(path.join(__dirname, 'data', 'korisnici.json'), 'utf-8');
-    //const korisnici = JSON.parse(data);
     const korisnik = await db.korisnik.findOne({ where: { username: jsonObj.username } });
     let found = false;
 
@@ -129,8 +120,7 @@ app.post('/login', async (req, res) => {
 
       if (isPasswordMatched) {
         req.session.username = korisnik.username;
-        found = true;
-        //brojPokusaja = 0; //ovo mi ima smisla, tako funkcioniše u praksi
+        found = true; 
         req.session.loginAttempts = 0;
       }
     }
@@ -139,18 +129,13 @@ app.post('/login', async (req, res) => {
       res.json({ poruka: 'Uspješna prijava' });
     } 
     else {
-      //brojPokusaja++;
       req.session.loginAttempts++;
 
-      if(/*brojPokusaja*/req.session.loginAttempts >= 3){
-        //blokiranoDo = Date.now() + 60 * 1000; // Blokiranje na 1 minut
-        //brojPokusaja = 0;
+      if(req.session.loginAttempts >= 3){
         req.session.lockoutUntil = new Date(new Date().getTime() + 60000);
         req.session.loginAttempts = 0;
         
         res.status(429).json({ greska: "Previse neuspjesnih pokusaja. Pokusajte ponovo za 1 minutu." });
-        //console.log("3 puta pogrešan unos");
-        //res.json({ poruka: '3 puta pogrešan unos' });
 
       }
       else{
@@ -210,11 +195,8 @@ app.get('/korisnik', async (req, res) => {
   const username = req.session.username;
 
   try {
-    // Read user data from the JSON file
-    const users = await readJsonFile('korisnici');
-
     // Find the user by username
-    const user = users.find((u) => u.username === username);
+    const user = await db.korisnik.findOne({ where: { username: username } });
 
     if (!user) {
       // User not found (should not happen if users are correctly managed)
@@ -251,42 +233,27 @@ app.post('/upit', async (req, res) => {
   const { nekretnina_id, tekst_upita } = req.body;
 
   try {
-    // Read user data from the JSON file
-    const users = await readJsonFile('korisnici');
-
-    // Read properties data from the JSON file
-    const nekretnine = await readJsonFile('nekretnine');
-
     // Find the user by username
-    const loggedInUser = users.find((user) => user.username === req.session.username);
+    const loggedInUser = await db.korisnik.findOne({ where: { username: req.session.username } });
 
     // Check if the property with nekretnina_id exists
-    const nekretnina = nekretnine.find((property) => property.id === nekretnina_id);
+    const nekretnina = await db.nekretnina.findOne({ where: { id: nekretnina_id } });
 
     if (!nekretnina) {
       // Property not found
       return res.status(400).json({ greska: `Nekretnina sa id-em ${nekretnina_id} ne postoji` });
     }
 
-    if(!req.session.brojKorisnikovihUpita) {
-      req.session.brojKorisnikovihUpita = 0;
-    }
+    let brojKorisnikovihUpita = await db.upit.count({ where: { korisnikId: loggedInUser.id, nekretninaId: nekretnina_id } });
 
-    if(req.session.brojKorisnikovihUpita >= 3) {
-      res.status(429).json({ greska: 'Previse upita za istu nekretninu.' });
+    if(brojKorisnikovihUpita >= 3) {
+      res.status(429).json({ greska: 'Previse upita za istu nekretninu.' });  
       return;
     }
 
-    // Add a new query to the property's queries array
-    nekretnina.upiti.push({
-      korisnik_id: loggedInUser.id,
-      tekst_upita: tekst_upita
-    });
-    req.session.brojKorisnikovihUpita++;
-
-    // Save the updated properties data back to the JSON file
-    await saveJsonFile('nekretnine', nekretnine);
-
+    // Save the new upit to the database
+    db.upit.create({ tekst: tekst_upita, korisnikId: loggedInUser.id, nekretninaId: nekretnina_id });
+    
     res.status(200).json({ poruka: 'Upit je uspješno dodan' });
   } 
   catch (error) {
