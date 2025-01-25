@@ -302,11 +302,8 @@ app.put('/korisnik', async (req, res) => {
   const { ime, prezime, username, password } = req.body;
 
   try {
-    // Read user data from the JSON file
-    const users = await readJsonFile('korisnici');
-
     // Find the user by username
-    const loggedInUser = users.find((user) => user.username === req.session.username);
+    const loggedInUser = await db.korisnik.findOne({ where: { username: req.session.username } });
 
     if (!loggedInUser) {
       // User not found (should not happen if users are correctly managed)
@@ -323,8 +320,7 @@ app.put('/korisnik', async (req, res) => {
       loggedInUser.password = hashedPassword;
     }
 
-    // Save the updated user data back to the JSON file
-    await saveJsonFile('korisnici', users);
+    await loggedInUser.save();
     res.status(200).json({ poruka: 'Podaci su uspješno ažurirani' });
   } 
   catch (error) {
@@ -338,7 +334,8 @@ Returns all properties from the file.
 */
 app.get('/nekretnine', async (req, res) => {
   try {
-    const nekretnineData = await readJsonFile('nekretnine');
+    //const nekretnineData = await readJsonFile('nekretnine');
+    const nekretnineData = await db.nekretnina.findAll();
     res.json(nekretnineData);
   } 
   catch (error) {
@@ -350,8 +347,7 @@ app.get('/nekretnine', async (req, res) => {
 /*Returns last 5 added properties on enetered location */
 app.get('/nekretnine/top5', async(req, res) => {
   try {
-    const nekretnineData = await readJsonFile('nekretnine');
-    const nekretnineNaUnesenojLokaciji = nekretnineData.filter((nekretnina) => nekretnina.lokacija === req.query.lokacija);
+    let nekretnineNaUnesenojLokaciji = await db.nekretnina.findAll({ where: { lokacija: req.query.lokacija } });
 
     const sortedNekretnineNaUnesenojLokaciji = nekretnineNaUnesenojLokaciji.sort((a, b) => {
       let prva = new Date(a.datum_objave.split(".").reverse().join("-"));
