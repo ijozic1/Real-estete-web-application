@@ -272,21 +272,9 @@ app.get('/upiti/moji', async (req, res) => {
   }
 
   try {
-    const nekretnineData = await readJsonFile('nekretnine');
-    const usersData = await readJsonFile('korisnici');
-    const loggedInUser = usersData.find((user) => user.username === req.session.username);
+    let korisnik = await db.korisnik.findOne({ where: { username: req.session.username } });
+    let listaUpitaZaKorisnika = await db.upit.findAll({ where: { korisnikId: korisnik.id } });
 
-    var listaUpitaZaKorisnika = [];
-
-    for (const nekretnina of nekretnineData) {
-      const upitiKorisnika = nekretnina.upiti.filter((upit) => upit.korisnik_id === loggedInUser.id);
-      for (const upit of upitiKorisnika) {
-        listaUpitaZaKorisnika.push({
-          id_nekretnine: nekretnina.id,
-          tekst_upita: upit.tekst_upita
-        });
-      }
-    }
     if(listaUpitaZaKorisnika.length == 0) {
       res.status(404).json(listaUpitaZaKorisnika);
       return;
