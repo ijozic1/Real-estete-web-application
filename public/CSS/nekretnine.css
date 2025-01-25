@@ -63,6 +63,41 @@ p{
     margin-right: 10px;
 }
 
+#search-container {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#search-container label{
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+#search-container input{
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid #ff9900;
+}
+
+#search-container button{
+    font-size: 15px;
+    background-color: #ff9900;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
 @media only screen and (max-width: 1920px) {
     #stan .grid-lista-nekretnina {
         width: 1600px;
@@ -153,4 +188,8 @@ p{
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+#dugmePretraga {
+    grid-column: span 2; /* Dugme će zauzeti oba fr */
 }
