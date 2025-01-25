@@ -37,6 +37,22 @@ function inicializacija() {
         username: "ijozic1",
         password: "$2b$10$XT28eJbWux2bWpB1B9rUhumRtirUV1Kp2wMFSN0bVygGhHuZp7kyi",
       },
+      {
+        id: 4,
+        ime: "admin",
+        prezime: "admin",
+        username: "admin",
+        password: "$2b$10$jZUkGiHI/FrIV8JKfNIc5umh83NBd.mox8ASyOnSf2.gmfETVq0/S", // sifra: admin
+        admin: true
+      },
+      {
+        id: 5,
+        ime: "user",
+        prezime: "user",
+        username: "user",
+        password: "$2b$10$iTPTTHRQINzsUhE5lc5wjOFjSfrdAl7QIHt/lXIk5CHSlo6u6Q5D6" // sifra: user
+
+      }
     ];
 
     korisniciPodaci.forEach((korisnik) => {
