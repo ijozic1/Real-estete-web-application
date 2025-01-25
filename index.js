@@ -268,11 +268,21 @@ app.post('/upit', async (req, res) => {
       return res.status(400).json({ greska: `Nekretnina sa id-em ${nekretnina_id} ne postoji` });
     }
 
-    if(!req.session.brojKorisnikovihUpita) {
+    /*if(!req.session.brojKorisnikovihUpita) {
       req.session.brojKorisnikovihUpita = 0;
     }
 
     if(req.session.brojKorisnikovihUpita >= 3) {
+      res.status(429).json({ greska: 'Previse upita za istu nekretninu.' });
+      return;
+    }*/
+    let brojKorisnikovihUpita = 0;
+    for(let i = 0; i < nekretnina.upiti.length; i++) {
+      if(nekretnina.upiti[i].korisnik_id === loggedInUser.id) {
+        brojKorisnikovihUpita++;
+      }
+    }
+    if(brojKorisnikovihUpita >= 3) {
       res.status(429).json({ greska: 'Previse upita za istu nekretninu.' });
       return;
     }
