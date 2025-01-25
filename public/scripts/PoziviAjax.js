@@ -48,85 +48,56 @@ const PoziviAjax = (() => {
 
     // ažurira podatke loginovanog korisnika
     function impl_putKorisnik(noviPodaci, fnCallback) {
-        // Check if user is authenticated
-        if (!req.session.username) {
-            // User is not logged in
-            return fnCallback({ status: 401, statusText: 'Neautorizovan pristup' }, null);
+        var ajax = new XMLHttpRequest()
+
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                fnCallback(null, ajax.response)
+            }
+            else if (ajax.readyState == 4) {
+                //desio se neki error
+                console.log("Response", ajax.responseText);
+                fnCallback(ajax.responseText, null)
+            }
         }
-
-        // Get data from request body
-        const { ime, prezime, username, password } = noviPodaci;
-
-        // Read user data from the JSON file
-        const users = readJsonFile('korisnici');
-
-        // Find the user by username
-        const loggedInUser = users.find((user) => user.username === req.session.username);
-
-        if (!loggedInUser) {
-            // User not found (should not happen if users are correctly managed)
-            return fnCallback({ status: 401, statusText: 'Neautorizovan pristup' }, null);
+        ajax.open("PUT", "http://localhost:3000/korisnik", true)
+        ajax.setRequestHeader("Content-Type", "application/json")
+        let korisnik = {
+            "ime": noviPodaci.ime,
+            "prezime": noviPodaci.prezime,
+            "username": noviPodaci.username,
+            "password": noviPodaci.password,
         }
-
-        // Update user data with the provided values
-        if (ime) loggedInUser.ime = ime;
-        if (prezime) loggedInUser.prezime = prezime;
-        if (username) loggedInUser.username = username;
-        if (password) loggedInUser.password = password;
-
-        // Save the updated user data back to the JSON file
-        saveJsonFile('korisnici', users);
-
+        forSend = JSON.stringify(korisnik)
+        ajax.send(forSend)
+        
         fnCallback(null, { poruka: 'Podaci su uspješno ažurirani' });
     }
 
     // dodaje novi upit za trenutno loginovanog korisnika
     function impl_postUpit(nekretnina_id, tekst_upita, fnCallback) {
-        // Check if user is authenticated
-        if (!req.session.username) {
-            // User is not logged in
-            return fnCallback({ status: 401, statusText: 'Neautorizovan pristup' }, null);
-        }
+        var ajax = new XMLHttpRequest()
 
-        // Read user data from the JSON file asynchronously
-        readJsonFileAsync('korisnici', (err, users) => {
-            if (err) {
-                return fnCallback({ status: 500, statusText: 'Internal Server Error' }, null);
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                fnCallback(null, ajax.response)
             }
+            else if (ajax.readyState == 4) {
+                //desio se neki error
+                console.log("Response", ajax.responseText);
+                fnCallback(ajax.responseText, null)
+            }
+        }
+        ajax.open("POST", "http://localhost:3000/upit", true)
+        ajax.setRequestHeader("Content-Type", "application/json")
+        let upit = {
+            "nekretnina_Id": nekretnina_id,
+            "tekst_upita": tekst_upita
+        }
+        forSend = JSON.stringify(upit)
+        ajax.send(forSend)
 
-            // Read properties data from the JSON file asynchronously
-            readJsonFileAsync('nekretnine', (err, nekretnine) => {
-                if (err) {
-                    return fnCallback({ status: 500, statusText: 'Internal Server Error' }, null);
-                }
-
-                // Find the user by username
-                const loggedInUser = users.find((user) => user.username === req.session.username);
-
-                // Check if the property with nekretnina_id exists
-                const nekretnina = nekretnine.find((property) => property.id === nekretnina_id);
-
-                if (!nekretnina) {
-                    // Property not found
-                    return fnCallback({ status: 400, statusText: `Nekretnina sa id-em ${nekretnina_id} ne postoji` }, null);
-                }
-
-                // Add a new query to the property's queries array
-                nekretnina.upiti.push({
-                    korisnik_id: loggedInUser.id,
-                    tekst_upita: tekst_upita
-                });
-
-                // Save the updated properties data back to the JSON file asynchronously
-                saveJsonFileAsync('nekretnine', nekretnine, (err) => {
-                    if (err) {
-                        return fnCallback({ status: 500, statusText: 'Internal Server Error' }, null);
-                    }
-
-                    fnCallback(null, { poruka: 'Upit je uspješno dodan' });
-                });
-            });
-        });
+        fnCallback(null, { poruka: 'Upit je uspješno dodan' });
     }
 
     function impl_getNekretnine(fnCallback) {
