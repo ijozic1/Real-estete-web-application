@@ -13,8 +13,8 @@ function postaviCarousel(glavniElement, sviElementi, indeks=0) {
         const element = sviElementi[indeks];
         glavniElement.innerHTML = `
             <div class="upit">
-                <p><strong>Id korisnika: </strong>${element.korisnik_id}</p>
-                <p><strong>Tekst upita: </strong>${element.tekst_upita}</p>
+                <p><strong>Id korisnika: </strong>${element.korisnikId}</p>
+                <p><strong>Tekst upita: </strong>${element.tekst}</p>
             </div>
         `;
     }

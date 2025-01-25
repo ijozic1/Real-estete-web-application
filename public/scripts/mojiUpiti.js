@@ -17,7 +17,7 @@ function prikaziMojeUpite(){
         }*/
         let table = "<table>";
         for(let i = 0; i < data.length; i++){
-            table += `<tr><td><div class = "upit"><strong>Nekretnina ${data[i].id_nekretnine}</strong>: ${data[i].tekst_upita}</div></td></tr>`;
+            table += `<tr><td><div class = "upit"><strong>Nekretnina ${data[i].nekretninaId}</strong>: ${data[i].tekst}</div></td></tr>`;
         }
         table += "</table>";
         document.getElementById("upiti").innerHTML = table;

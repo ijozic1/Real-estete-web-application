@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         else if(upiti.length == 1){
             glavniElement.innerHTML = `
                 <div class="upit">
-                    <p><strong>Id korisnika: </strong>${upiti[0].korisnik_id}</p>
-                    <p><strong>Tekst upita: </strong>${upiti[0].tekst_upita}</p>
+                    <p><strong>Id korisnika: </strong>${upiti[0].korisnikId}</p>
+                    <p><strong>Tekst upita: </strong>${upiti[0].tekst}</p>
                 </div>
             `;
             prethodni.style.display = 'none';
