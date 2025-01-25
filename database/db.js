@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const sequelize_obj = new Sequelize("wt24","root","password",{
+const sequelize_obj = new Sequelize("wt24","root","",{
     host:"localhost",
     dialect:"mysql"});
 const db={};
@@ -41,7 +41,7 @@ db.ponuda.belongsTo(db.ponuda, { as: 'parentOffer', foreignKey: 'parent_offerId'
 
 module.exports=db;
 
-(async () => {
+/*(async () => {
     try {
       await sequelize_obj.authenticate();
       console.log('Konekcija na bazu je uspešna!');
@@ -52,7 +52,7 @@ module.exports=db;
     } catch (error) {
       console.error('Greška pri konekciji:', error);
     }
-})();
+})();*/
 
 db.nekretnina.prototype.getInteresovanja = async function () {
     const upiti = await this.getUpiti();

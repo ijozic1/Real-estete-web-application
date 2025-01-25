@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
+const db = require('./database/db.js');
+
 app.use(session({
   secret: 'tajna sifra',
   resave: true,
