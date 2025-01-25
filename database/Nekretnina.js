@@ -36,6 +36,9 @@ module.exports = function(sequelize, DataTypes){
         opis: {
             type: DataTypes.TEXT,
         },
+    },
+    {
+        freezeTableName: true
     })
     return Nekretnina;
 };

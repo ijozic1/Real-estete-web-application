@@ -6,6 +6,9 @@ module.exports = function(sequelize, DataTypes){
             type: DataTypes.TEXT,
             allowNull: false,
         },
+    },
+    {
+        freezeTableName: true
     })
     return Upit;
 };

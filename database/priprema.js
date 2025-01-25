@@ -104,9 +104,9 @@ function inicializacija() {
             })
             .then(function (kreiranaNekretnina) {
               const upiti = nekretnina.upiti.map((upit) => ({
-                korisnik_id: upit.korisnik_id,
+                korisnikId: upit.korisnik_id,
                 tekst: upit.tekst_upita,
-                nekretnina_id: kreiranaNekretnina.id,
+                nekretninaId: kreiranaNekretnina.id,
               }));
 
               upiti.forEach((upit) => {
