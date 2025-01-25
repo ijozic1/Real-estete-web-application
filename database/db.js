@@ -8,11 +8,13 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize_obj;
 
 //import modela
-db.korisnik = sequelize_obj.import(__dirname+'/Korisnik.js');
-db.nekretnina = sequelize_obj.import(__dirname+'/Nekretnina.js');
-db.ponuda = sequelize_obj.import(__dirname+'/Ponuda.js');
-db.upit = sequelize_obj.import(__dirname+'/Upit.js');
-db.zahtjev = sequelize_obj.import(__dirname+'/Zahtjev.js');
+const path = require('path');
+db.korisnik = require(path.join(__dirname, '/Korisnik.js'))(sequelize_obj, Sequelize.DataTypes);
+db.nekretnina = require(path.join(__dirname, '/Nekretnina.js'))(sequelize_obj, Sequelize.DataTypes);
+db.ponuda = require(path.join(__dirname, '/Ponuda.js'))(sequelize_obj, Sequelize.DataTypes);
+db.upit = require(path.join(__dirname, '/Upit.js'))(sequelize_obj, Sequelize.DataTypes);
+db.zahtjev = require(path.join(__dirname, '/Zahtjev.js'))(sequelize_obj, Sequelize.DataTypes);
+
 
 //relacije
 // Relacije Nekretnina - Interesovanja
