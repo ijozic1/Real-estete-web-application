@@ -83,7 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             //zahtjevi
-            if(zahtjevi.length == 0){
+            if(!zahtjevi){
+                document.getElementById("zahtjevi").innerHTML = `<div class="greske"><p>Niste prijavljeni ili niste postavili zahtjev za ovu nekretninu..</p>`;
+                prethodniZahtjevi.style.display = 'none';
+                sljedeciZahtjevi.style.display = 'none';
+            }
+            else if(zahtjevi.length == 0){
                 document.getElementById("zahtjevi").innerHTML = `<div class="greske"><p>Nema postavljenih zahtjeva za ovu nekretninu.</p>`;
                 prethodniZahtjevi.style.display = 'none';
                 sljedeciZahtjevi.style.display = 'none';
@@ -126,12 +131,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(ponude[0].odbijenaPonuda == null){
                     status = "na čekanju";
                 }
+
+                let cijena = ponude[0].cijenaPonude ? ponude[0].cijenaPonude : "nije Vaša ponuda";
                 glavniElementPonude.innerHTML = `
                     <div class="ponuda">
-                        <!--<p><strong>Id korisnika: </strong>${ponude[0].korisnikId}</p>
-                        <p><strong>Id ponude: </strong>${ponude[0].id}</p>-->
+                        <p><strong>Id korisnika: </strong>${ponude[0].korisnikId}</p>
+                        <p><strong>Id ponude: </strong>${ponude[0].id}</p>
                         <p><strong>Tekst ponude: </strong>${ponude[0].tekst}</p>
                         <p><strong>Status ponude: </strong>${status}</p>
+                        <p><strong>Cijena ponude: </strong>${cijena}</p>
                     </div>
                 `;
                 prethodniPonude.style.display = 'none';
@@ -181,30 +189,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.getElementById('tipInteresovanja').addEventListener('change', (event) => {
+            
             const tip = event.target.value;
-            const dinamickiDiv = document.getElementById('sadrzaj-dinamicki');
-            dinamickiDiv.innerHTML = '';
+            console.log(tip);
+            //const tip = this.value;
 
-            if (tip === 'upit' || tip === 'zahtjev') {
-                dinamickiDiv.innerHTML = `
-                    <label for="tekst">Tekst:</label>
-                    <textarea id="tekst" name="tekst" required></textarea>
-                `;
-                if (tip === 'zahtjev') {
-                    dinamickiDiv.innerHTML += `
-                        <label for="trazeniDatum">Traženi datum:</label>
-                        <input type="date" id="trazeniDatum" name="trazeniDatum" required>
-                    `;
-                }
-            } 
-            else if (tip === 'ponuda') {
-                let dropdownHtml = `<label for="vezanaPonuda">Id vezane ponude:</label>
-                    <select id="vezanaPonuda" name="vezanaPonuda"></select>`;
-                dinamickiDiv.innerHTML = `
-                    ${dropdownHtml}
-                    <label for="tekst">Tekst:</label>
-                    <textarea id="tekst" name="tekst" required></textarea>
-                `;
+            //sakrivanje svih polja
+            const svaPolja = [
+                'zahtjev_div',
+                'ponuda_div',
+            ];
+
+            svaPolja.forEach(polje => {
+                document.getElementById(polje).style.display = 'none';
+            });
+
+            //prikazivanje polja za trenutni tip
+            const poljaId = {
+                'zahtjev': 'zahtjev_div',
+                'ponuda': 'ponuda_div'
+            }[tip];
+            console.log(poljaId);
+
+            if (poljaId) {
+                document.getElementById(poljaId).style.display = 'block';
+            }
+        });
+        document.getElementById('tipInteresovanja').dispatchEvent(new Event('change'));
+
+            
+            
+
+           
         
                 // Popunjavanje dropdown-a za vezane ponude
                 //ovdje proci kroz sve ponude i izvuci vezane za korisnikovu ili sve ako je admin
@@ -219,8 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         vezanaPonudaDropdown.innerHTML += `<option value="${ponuda.id}">${ponuda.id}</option>`;
                     });
                 });*/
-            }
-        });
         /*U UI treba omoguciti adminu da odobri zahtjev ili ponudu i useru da odbiju ponude koje su dodane kao child na njegovu*/
 
         document.getElementById('novaForma').addEventListener('submit', (event) => {
@@ -234,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Unesite tekst upita!');
                     return;
                 }
-                PoziviAjax.mpl_postUpit(idNekretnine, tekst, (error, response) => {
+                PoziviAjax.postUpit(idNekretnine, tekst, (error, response) => {
                     if (error) {
                         alert('Greška prilikom dodavanja upita.');
                         return;

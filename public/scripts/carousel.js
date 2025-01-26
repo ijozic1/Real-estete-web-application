@@ -81,12 +81,15 @@ function postaviCarouselPonude(glavniElement, sviElementi, indeks=0) {
         if(element.odobren == null){
             status = "na čekanju";
         }
+
+        let cijena = element.cijenaPonude ? element.cijenaPonude : "nije Vaša ponuda";
         glavniElement.innerHTML = `
             <div class="ponuda">
                 <!--<p><strong>ID korisnika: </strong>${element.korisnikId}</p>
                 <p><strong>ID ponude: </strong>${element.id}</p>-->
                 <p><strong>Tekst ponude: </strong>${element.tekst}</p>
                 <p><strong>Status ponude: </strong>${status}</p>
+                <p><strong>Cijena ponude: </strong>${cijena}</p>
             </div>
         `;
     }

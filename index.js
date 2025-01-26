@@ -572,8 +572,11 @@ app.get('/nekretnina/:id/interesovanja', async (req, res) => {
       }
       return ponuda;
     });
-    console.log(filteredPonude);
-    return res.status(200).json({...svaInteresovanja, ponude: filteredPonude});
+    //console.log(filteredPonude);
+    const filteredZahtjevi = svaInteresovanja.zahtjevi.filter(zahtjev => zahtjev.korisnikId === loggedInUser.id);
+
+    return res.status(200).json({...svaInteresovanja, ponude: filteredPonude, zahtjevi: filteredZahtjevi});
+    //return res.status(200).json({...svaInteresovanja, ponude: filteredPonude});
     
   }
   catch(error) {
