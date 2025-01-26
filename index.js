@@ -209,7 +209,8 @@ app.get('/korisnik', async (req, res) => {
       ime: user.ime,
       prezime: user.prezime,
       username: user.username,
-      password: user.password // Should exclude the password for security reasons
+      password: user.password,
+      admin: user.admin
     };
 
     res.status(200).json(userData);

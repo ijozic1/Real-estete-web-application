@@ -68,7 +68,7 @@ function postaviCarouselZahtjevi(glavniElement, sviElementi, indeks=0) {
     return{fnLijevoZahtjev, fnDesnoZahtjev};
 }
 
-function postaviCarouselPonude(glavniElement, sviElementi, indeks=0) {
+function postaviCarouselPonude(admin, glavniElement, sviElementi, indeks=0) {
     if(glavniElement === null || glavniElement === undefined || 
         !Array.isArray(sviElementi) || sviElementi.length === 0 || 
         indeks < 0 || indeks >= sviElementi.length) {
@@ -83,15 +83,31 @@ function postaviCarouselPonude(glavniElement, sviElementi, indeks=0) {
         }
 
         let cijena = element.cijenaPonude ? element.cijenaPonude : "nije Vaša ponuda";
-        glavniElement.innerHTML = `
+
+        if(admin){
+            glavniElement.innerHTML = `
             <div class="ponuda">
-                <!--<p><strong>ID korisnika: </strong>${element.korisnikId}</p>
-                <p><strong>ID ponude: </strong>${element.id}</p>-->
+                <p><strong>ID korisnika: </strong>${element.korisnikId}</p>
+                <p><strong>ID ponude: </strong>${element.id}</p>
+                <p><strong>Tekst ponude: </strong>${element.tekst}</p>
+                <p><strong>Status ponude: </strong>${status}</p>
+                <p><strong>Cijena ponude: </strong>${cijena}</p>
+                <p><strong>Datum ponude: </strong>${element.datumPonude}</p>
+                <p><strong>ID vezane ponude: </strong>${element.parent_offerId ? element.parent_offerId : "Korijenska"}</p>
+            </div>
+        `;
+        }
+        else{
+            glavniElement.innerHTML = `
+            <div class="ponuda">
+                <p><strong>ID ponude: </strong>${element.id}</p>
                 <p><strong>Tekst ponude: </strong>${element.tekst}</p>
                 <p><strong>Status ponude: </strong>${status}</p>
                 <p><strong>Cijena ponude: </strong>${cijena}</p>
             </div>
         `;
+        }
+        
     }
 
     function fnLijevoPonuda(){
