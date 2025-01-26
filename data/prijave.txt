@@ -90,3 +90,4 @@
 [2025-01-27_14:36:55.792Z] - username: admin - status: uspješno
 [2025-01-27_14:52:04.297Z] - username: ijozic1 - status: uspješno
 [2025-01-27_15:00:23.512Z] - username: admin - status: uspješno
+[2025-01-27_15:19:07.077Z] - username: ijozic1 - status: uspješno
