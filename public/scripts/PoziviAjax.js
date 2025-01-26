@@ -262,6 +262,7 @@ const PoziviAjax = (() => {
         ajax.open("PUT", `http://localhost:3000/nekretnina/${nekretnina_id}/zahtjev/${zahtjev_id}`, true)
         ajax.setRequestHeader("Content-Type", "application/json")
         
+        
         let izmjena = {
             odobren: odobren,
             addToTekst: addToTekst,
@@ -269,6 +270,52 @@ const PoziviAjax = (() => {
         ajax.send(JSON.stringify(izmjena));
 
         fnCallback(null, { poruka: 'Zahtjev je uspješno ažuriran' });
+    }
+
+    function get_getInteresovanja(id_nekretnine, fnCallback) {
+        let ajax = new XMLHttpRequest()
+
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                fnCallback(null, JSON.parse(ajax.responseText))
+            }
+            else if (ajax.readyState == 4) {
+                //desio se neki error
+                fnCallback(ajax.statusText, null)
+            }
+        }
+        ajax.open("GET", `http://localhost:3000/nekretnina/${id_nekretnine}/interesovanja`, true)
+        ajax.send()
+    }
+
+    function postNekretninaPonuda(nekretnina_id, tekst, ponudaCijene, datumPonude, idVezanePonude, odbijenaPonuda = null, fnCallback){
+        var ajax = new XMLHttpRequest()
+
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                fnCallback(null, ajax.response)
+            }
+            else if (ajax.readyState == 4) {
+                //desio se neki error
+                console.log("Response", ajax.responseText);
+                fnCallback(ajax.responseText, null)
+            }
+        }
+        ajax.open("POST", `http://localhost:3000/nekretnina/${nekretnina_id}/ponuda`, true)
+        ajax.setRequestHeader("Content-Type", "application/json")
+
+        let ponuda = {
+            "tekst": tekst,
+            "ponudaCijene": ponudaCijene,
+            "datumPonude": datumPonude,
+            "idVezanePonude": idVezanePonude,
+            "odbijenaPonuda": odbijenaPonuda
+        }
+
+        forSend = JSON.stringify(ponuda)
+        ajax.send(forSend)
+
+        fnCallback(null, { poruka: 'Ponuda je uspjesno dodana' });
     }
 
     return {
@@ -283,6 +330,8 @@ const PoziviAjax = (() => {
         getNekretnina: getNekretnina,
         getNextUpiti: getNextUpiti,
         postNekretninaZahtjev: postNekretninaZahtjev,
-        putNekretninaZahtjev: putNekretninaZahtjev
+        putNekretninaZahtjev: putNekretninaZahtjev,
+        get_getInteresovanja: get_getInteresovanja,
+        postNekretninaPonuda: postNekretninaPonuda
     };
 })();

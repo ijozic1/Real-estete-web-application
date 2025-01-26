@@ -5,15 +5,12 @@ function postaviCarousel(glavniElement, sviElementi, indeks=0) {
             return null;
     }
 
-    let page = 0;
-    let dobavljeniSvi = false;
-
     function prikaziTrenutniElement(){
-        /*glavniElement.innerHTML=sviElementi[indeks].outerHTML;*/
         const element = sviElementi[indeks];
         glavniElement.innerHTML = `
             <div class="upit">
-                <p><strong>Id korisnika: </strong>${element.korisnikId}</p>
+                <p><strong>ID korisnika: </strong>${element.korisnikId}</p>
+                <p><strong>ID upita: </strong>${element.id}</p>
                 <p><strong>Tekst upita: </strong>${element.tekst}</p>
             </div>
         `;
@@ -21,47 +18,89 @@ function postaviCarousel(glavniElement, sviElementi, indeks=0) {
 
     function fnLijevo(){
         indeks=(indeks - 1 + sviElementi.length) % sviElementi.length;
-        
-        if(sviElementi.length % 3 == 0 && !dobavljeniSvi && indeks == 0){
-            page++;
-            PoziviAjax.getNextUpiti(getNekretninaIdFromUrl(), page, (error, data) =>{
-                if(error){
-                    if(error == "Not Found"){
-                        //prazna lista upita
-                        dobavljeniSvi = true;
-                        return;
-                    }
-                }
-                
-                sviElementi.push(...data);
-            });
-        }
-
         prikaziTrenutniElement();
     }
 
     function fnDesno(){
         indeks=(indeks + 1) % sviElementi.length;
-
-        if(sviElementi.length % 3 == 0 && !dobavljeniSvi && indeks == sviElementi.length - 1){
-            page++;
-            PoziviAjax.getNextUpiti(getNekretninaIdFromUrl(), page, (error, data) =>{
-                if(error){
-                    if(error == "Not Found"){
-                        //prazna lista upita
-                        dobavljeniSvi = true;
-                        return;
-                    }
-                }
-                
-                sviElementi.push(...data);
-            });
-        }
-
         prikaziTrenutniElement();
     }
 
     prikaziTrenutniElement();
-
     return{fnLijevo, fnDesno};
+}
+
+function postaviCarouselZahtjevi(glavniElement, sviElementi, indeks=0) {
+    if(glavniElement === null || glavniElement === undefined || 
+        !Array.isArray(sviElementi) || sviElementi.length === 0 || 
+        indeks < 0 || indeks >= sviElementi.length) {
+            return null;
+    }
+
+    function prikaziTrenutniElementZahtjevi(){
+        const element = sviElementi[indeks];
+        let status = element.odobren ? "odobren" : "odbijen";
+        if(element.odobren == null){
+            status = "na čekanju";
+        }
+        glavniElement.innerHTML = `
+            <div class="zahtjev">
+                <p><strong>ID korisnika: </strong>${element.korisnikId}</p>
+                <p><strong>ID zahtjeva: </strong>${element.id}</p>
+                <p><strong>Tekst zahtjeva: </strong>${element.tekst}</p>
+                <p><strong>Datum zahtjeva: </strong>${element.trazeniDatum}</p> 
+                <p><strong>Status zahtjeva: </strong>${status}</p>
+            </div>
+        `;
+    }
+
+    function fnLijevoZahtjev(){
+        indeks=(indeks - 1 + sviElementi.length) % sviElementi.length;
+        prikaziTrenutniElementZahtjevi();
+    }
+
+    function fnDesnoZahtjev(){
+        indeks=(indeks + 1) % sviElementi.length;
+        prikaziTrenutniElementZahtjevi();
+    }
+
+    prikaziTrenutniElementZahtjevi();
+    return{fnLijevoZahtjev, fnDesnoZahtjev};
+}
+
+function postaviCarouselPonude(glavniElement, sviElementi, indeks=0) {
+    if(glavniElement === null || glavniElement === undefined || 
+        !Array.isArray(sviElementi) || sviElementi.length === 0 || 
+        indeks < 0 || indeks >= sviElementi.length) {
+            return null;
+    }
+
+    function prikaziTrenutniElementPonuda(){
+        const element = sviElementi[indeks];
+        let status = element.odbijenaPonuda ? "odbijena" : "odobrena";
+        if(element.odobren == null){
+            status = "na čekanju";
+        }
+        glavniElement.innerHTML = `
+            <div class="ponuda">
+                <!--<p><strong>ID korisnika: </strong>${element.korisnikId}</p>
+                <p><strong>ID ponude: </strong>${element.id}</p>-->
+                <p><strong>Tekst ponude: </strong>${element.tekst}</p>
+                <p><strong>Status ponude: </strong>${status}</p>
+            </div>
+        `;
+    }
+
+    function fnLijevoPonuda(){
+        indeks=(indeks - 1 + sviElementi.length) % sviElementi.length;
+        prikaziTrenutniElementPonuda();
+    }
+
+    function fnDesnoPonuda(){
+        indeks=(indeks + 1) % sviElementi.length;
+        prikaziTrenutniElementPonuda();
+    }
+
+    prikaziTrenutniElementPonuda();
+    return{fnLijevoPonuda, fnDesnoPonuda};
 }

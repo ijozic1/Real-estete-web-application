@@ -12,7 +12,8 @@ module.exports = function(sequelize, DataTypes){
         },
         odobren: {
             type: DataTypes.BOOLEAN,
-            defaultValue: false,
+            allowNull: true,
+            defaultValue: null,
         },
     },
     {

@@ -55,9 +55,11 @@ module.exports=db;
 })();*/
 
 db.nekretnina.prototype.getInteresovanja = async function () {
-    const upiti = await this.getUpiti();
-    const zahtjevi = await this.getZahtjevi();
-    const ponude = await this.getPonude();
-    return { upiti, zahtjevi, ponude };
+    const upiti = await db.upit.findAll({where: {nekretninaId: this.id}});
+    const zahtjevi = await db.zahtjev.findAll({where: {nekretninaId: this.id}});
+    const ponude = await db.ponuda.findAll({where: { nekretninaId: this.id }});
+    const interesovanja = { upiti, zahtjevi, ponude };
+    //console.log("Ovo su interesovanja:", interesovanja);
+    return interesovanja;
 };
   

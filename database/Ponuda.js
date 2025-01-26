@@ -16,7 +16,8 @@ module.exports = function(sequelize, DataTypes){
         },
         odbijenaPonuda: {
             type: DataTypes.BOOLEAN,
-            defaultValue: false,
+            allowNull: true,
+            defaultValue: null,
         },
     },
     {

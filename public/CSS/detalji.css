@@ -77,20 +77,6 @@ iframe {
   background-color: white;
 }
 
-/*S1: dva upita za sirine preko 800px*/
-/*@media (min-width: 801px) {
-  .upit {
-    flex: 1 1 45%;
-  }
-}*/
-
-/*S1: jedan upit ako je sirina 600px do 800px*/
-/*@media (max-width: 800px) and (min-width: 600px) {
-  .upit {
-    flex: 1 1 100%;
-  }
-}*/
-
 /*Dugmići*/
 #carousel-controls {
   display: none;
@@ -117,26 +103,6 @@ iframe {
   background-color: #d4a62a;
 }
 
-/*S1: web carousel za sirinu manju od 600px*/
-/*media (max-width: 599px) {
-  #upiti {
-      flex-direction: column;
-      overflow: hidden;
-  }
-
-  .upit {
-      display: none;
-  }
-
-  .upit:first-of-type {
-      display: block;
-  }
-
-  #carousel-controls {
-      display: flex;
-  }
-}*/
-
 /*Spirala 3 - carousel uvijek vidjljiv i prikazuje se samoo jedan upit*/
 #upiti {
   flex-direction: column;
@@ -153,6 +119,66 @@ iframe {
 
 #carousel-controls {
   display: flex;
+}
+
+#zahtjevi {
+  border: 1px solid #000;
+  padding: 20px;
+  margin: 20px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.zahtjev {
+  border: 1px solid #000;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+#zahtjevi {
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.zahtjev {
+  display: none;
+}
+
+.zahtjev:first-of-type {
+  display: block;
+}
+
+#ponude {
+  border: 1px solid #000;
+  padding: 20px;
+  margin: 20px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ponuda {
+  border: 1px solid #000;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+#ponude {
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ponuda {
+  display: none;
+}
+
+.ponuda:first-of-type {
+  display: block;
 }
 
 .greske {
@@ -181,4 +207,37 @@ iframe {
   display: inline;
   width: 15%;
   text-align: center;
+}
+
+#novaForma{
+  margin-left: 20px;
+}
+
+#novaForma button{
+  padding: 10px 20px;
+  background-color: #f0c14b;
+  border: 1px solid #000;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 80%;
+  /*color: #ffc;*/
+  color: #80520e;
+  width: fit-content;
+  height: fit-content;
+  transition: background-color 0.3s ease;
+  vertical-align: middle;
+  margin-top: 10px;
+}
+
+#novaForma button:hover {
+  background-color: #d4a62a;
+}
+
+#novaForma select{
+  padding: 10px;
+  margin: 10px;
+}
+
+#novaForma label{
+  margin: 10px;
 }

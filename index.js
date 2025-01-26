@@ -474,6 +474,7 @@ app.post('/nekretnina/:id/zahtjev', async (req, res) => {
   }
 });
 
+/*Returns request with an Id :zid which is posted to the particular property*/
 app.put('/nekretnina/:id/zahtjev/:zid', async (req, res) => {
   if(!req.session.username) {
     return res.status(401).json({ greska: 'Neautorizovan pristup' });
@@ -511,6 +512,150 @@ app.put('/nekretnina/:id/zahtjev/:zid', async (req, res) => {
     console.error('Error updating request:', error);
     res.status(500).json({ greska: 'Internal Server Error' });
   }
+});
+
+/*Returns all the interests of the property with :id*/
+app.get('/nekretnina/:id/interesovanja', async (req, res) => {
+  const { id } = req.params;
+
+  try{
+    const nekretnina = await db.nekretnina.findOne({ where: { id: id } });
+    if(!nekretnina) {
+      return res.status(404).json({ greska: `Nekretnina sa id-jem ne postoji` });
+    }
+
+    let svaInteresovanja = await nekretnina.getInteresovanja();
+    
+    if(!req.session.username) {
+      // Ne prikazuju se zahtjevi za nelogiranog korisnika
+      delete svaInteresovanja.zahtjevi;
+
+      // Ne prikazuju se cijene u ponudama za nelogiranog korisnika
+      svaInteresovanja.ponude = svaInteresovanja.ponude.map(ponuda => {
+        const {cijenaPonude, ...rest} = ponuda.dataValues;
+
+        return rest;
+      });
+   
+
+      return res.status(200).json(svaInteresovanja);
+    }
+
+    // Ako je admin logiran, prikazi sve podatke
+    const loggedInUser = await db.korisnik.findOne({ where: { username: req.session.username } });
+    if(loggedInUser.admin) {
+      return res.status(200).json(svaInteresovanja);
+    }
+
+    // Ako je obican korisnik logiran, prikazi samo njegove cijene
+    const ponudeUsera = svaInteresovanja.ponude.filter(ponuda => ponuda.korisnikId === loggedInUser.id);
+    const relevantnePonudeIDs = new Set();
+
+    function collectChildOffers(parentId) {
+      svaInteresovanja.ponude.forEach(ponuda => {
+        if(ponuda.parent_offerId && ponuda.parent_offerId === parentId) {
+          relevantnePonudeIDs.add(ponuda.id);
+          collectChildOffers(ponuda.id);
+        }
+      });
+    }
+
+    ponudeUsera.forEach(ponuda => {
+      relevantnePonudeIDs.add(ponuda.id);
+      collectChildOffers(ponuda.id);
+    });
+
+    const filteredPonude = svaInteresovanja.ponude.map(ponuda => {
+      if(!relevantnePonudeIDs.has(ponuda.id)) {
+        const {cijenaPonude, ...rest} = ponuda.dataValues;
+        return rest;
+      }
+      return ponuda;
+    });
+    console.log(filteredPonude);
+    return res.status(200).json({...svaInteresovanja, ponude: filteredPonude});
+    
+  }
+  catch(error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ greska: 'Internal Server Error' });
+  }
+  
+});
+
+/*Return all the offers binded to the proprerty with :id*/
+app.post('/nekretnina/:id/ponuda', async (req, res) => {
+
+  if(!req.session.username) {
+    return res.status(401).json({ greska: 'Neautorizovan pristup' });
+  }
+
+  const {id} = req.params;
+  const { tekst, ponudaCijene, datumPonude, idVezanePonude, odbijenaPonuda} = req.body;
+
+  try{
+    const nekretnina = await db.nekretnina.findOne({ where: { id: id } });
+    if (!nekretnina) {
+        return res.status(404).json({ error: 'Nekretnina nije pronađena' });
+    }
+
+    const korisnik = await db.korisnik.findOne({ where: { username: req.session.username } });
+
+    let parentPonuda = null;
+        if (idVezanePonude) {
+            parentPonuda = await db.ponuda.findOne({
+                where: { id: idVezanePonude, idNekretnine: id },
+                include: [
+                    {
+                        model: db.ponuda,
+                        as: 'vezanePonude',
+                    },
+                ],
+            });
+
+            if (!parentPonuda) {
+                return res.status(404).json({ error: 'Osnovna ponuda nije pronađena' });
+            }
+
+            // da li u nizu ponuda postoji ponuda sa `odbijenaPonuda: true`
+            const hasRejectedOffer = parentPonuda.vezanePonude.some(ponuda => ponuda.odbijenaPonuda);
+            if (hasRejectedOffer) {
+                return res.status(400).json({ error: 'Nove ponude ne mogu se dodavati u niz sa odbijenom ponudom.' });
+            }
+
+            // Provjera prava korisnika za odgovaranje na ponudu
+            const isAdmin = korisnik.admin;
+            const isOwner = parentPonuda.korisnikId === korisnik.id;
+
+            if (!isAdmin && !isOwner) {
+                return res.status(403).json({ error: 'Nemate pravo odgovarati na ovu ponudu.' });
+            }
+
+            // Ako je korisnik običan, provjera da li ponuda pripada nizu vezanom za njegovu ponudu
+            if (!isAdmin && !isOwner && !parentPonuda.vezanePonude.some(vezana => vezana.korisnikId === korisnik.id)) {
+                return res.status(403).json({ error: 'Nemate pravo odgovarati na ovu ponudu.' });
+            }
+        }
+
+        // Kreiraj novu ponudu
+        const novaPonuda = await db.ponuda.create({
+            tekst: tekst,
+            cijenaPonude: ponudaCijene,
+            datumPonude : datumPonude,
+            odbijenaPonuda: !!odbijenaPonuda,
+            korisnikId: korisnik.id,
+            nekretninaId : id,
+            parent_offerId: idVezanePonude || null,
+        });
+
+        return res.status(200).json(novaPonuda);
+  }
+  catch(error) {
+    console.error('Error creating offer:', error);
+    res.status(500).json({ greska: 'Internal Server Error' });
+  }
+
+
 });
 
 /* ----------------- MARKETING ROUTES ----------------- */
