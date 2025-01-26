@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('tipInteresovanja').addEventListener('change', (event) => {
             
             const tip = event.target.value;
-            console.log(tip);
+            //console.log(tip);
             //const tip = this.value;
 
             //sakrivanje svih polja
@@ -209,15 +209,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 'zahtjev': 'zahtjev_div',
                 'ponuda': 'ponuda_div'
             }[tip];
-            console.log(poljaId);
+            //console.log(poljaId);
 
             if (poljaId) {
                 document.getElementById(poljaId).style.display = 'block';
             }
+
+            if(tip === 'ponuda'){
+                setTimeout(() => {popuniDropdownVezanaNekretnina('vezanaPonuda');}, 150);
+                //console.log('popunjeno');
+            }
+                
         });
         document.getElementById('tipInteresovanja').dispatchEvent(new Event('change'));
 
-            
+        function popuniDropdownVezanaNekretnina(idDropdown) {
+            const dropdown = document.getElementById(idDropdown);
+        
+            if (!dropdown) {
+                console.error(`Element sa ID '${idDropdown}' nije pronađen.`);
+                return;
+            }
+        
+            const praznaOpcija = document.createElement("option");
+            praznaOpcija.value = null;
+            praznaOpcija.textContent = "Nova korijenska ponuda";
+            dropdown.appendChild(praznaOpcija);
+
+            let brojac = 0;
+        
+            ponude.forEach(ponuda => {
+                const opcija = document.createElement("option");
+                if(ponuda.cijenaPonude && !ponuda.odbijenaPonuda){
+                    opcija.value = ponuda.id;
+                    opcija.textContent = `${ponuda.id}`;
+                    brojac++;
+                }
+                dropdown.appendChild(opcija);
+            });
+            if(brojac == 0){
+                praznaOpcija.textContent = "Nema dostupnih ponuda";
+                praznaOpcija.disabled = true;
+                return;
+            }
+        }
             
 
            
@@ -254,8 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     console.log('Upit uspješno postavljen!');
-                    window.location.reload();
                 });
+                setTimeout(() => {window.location.reload();}, 20);
             }
 
             else if(tip === 'zahtjev'){
@@ -271,26 +306,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     console.log('Zahtjev uspješno postavljen!');
-                    window.location.reload();
                 });
+                setTimeout(() => {window.location.reload();}, 10);
             }
 
             else{
                 const tekst = document.getElementById('tekst').value;
-                const vezanaPonuda = document.getElementById('vezanaPonuda').value;
-                const cijenaPonude = document.getElementById('cijenaPonude').value;
+                const vezanaPonuda = Number(document.getElementById('vezanaPonuda').value);
+                const cijenaPonude = Number(document.getElementById('cijenaPonude').value);
                 if(!tekst || !cijenaPonude){
                     alert('Unesite tekst ponude i cijenu poruke!');
                     return;
                 }
-                PoziviAjax.postNekretninaPonuda(idNekretnine, tekst, cijenaPonude, new Date(), vezanaPonuda, (error, response) => {
+                PoziviAjax.postNekretninaPonuda(idNekretnine, tekst, cijenaPonude, new Date(), vezanaPonuda, null, (error, response) => {
                     if (error) {
                         alert('Greška prilikom dodavanja ponude.');
                         return;
                     }
                     console.log('Ponuda uspješno postavljena!');
-                    window.location.reload();
                 });
+                setTimeout(() => {window.location.reload();}, 10);
             }
         });
 

@@ -91,7 +91,7 @@ const PoziviAjax = (() => {
         ajax.open("POST", "http://localhost:3000/upit", true)
         ajax.setRequestHeader("Content-Type", "application/json")
         let upit = {
-            "nekretnina_Id": nekretnina_id,
+            "nekretnina_id": nekretnina_id,
             "tekst_upita": tekst_upita
         }
         forSend = JSON.stringify(upit)
@@ -288,7 +288,7 @@ const PoziviAjax = (() => {
         ajax.send()
     }
 
-    function postNekretninaPonuda(nekretnina_id, tekst, ponudaCijene, datumPonude, idVezanePonude, odbijenaPonuda = null, fnCallback){
+    function postNekretninaPonuda(nekretnina_id, tekst, cijenaPonude, datumPonude, idVezanePonude, odbijenaPonuda, fnCallback){
         var ajax = new XMLHttpRequest()
 
         ajax.onreadystatechange = function () {
@@ -304,12 +304,23 @@ const PoziviAjax = (() => {
         ajax.open("POST", `http://localhost:3000/nekretnina/${nekretnina_id}/ponuda`, true)
         ajax.setRequestHeader("Content-Type", "application/json")
 
-        let ponuda = {
-            "tekst": tekst,
-            "ponudaCijene": ponudaCijene,
-            "datumPonude": datumPonude,
-            "idVezanePonude": idVezanePonude,
-            "odbijenaPonuda": odbijenaPonuda
+        let ponuda = {}
+        if (!idVezanePonude) {
+            ponuda = {
+                "tekst": tekst,
+                "cijenaPonude": cijenaPonude,
+                "datumPonude": datumPonude,
+                "odbijenaPonuda": odbijenaPonuda
+            }
+        }
+        else{
+            ponuda = {
+                "tekst": tekst,
+                "cijenaPonude": cijenaPonude,
+                "datumPonude": datumPonude,
+                "idVezanePonude": idVezanePonude,
+                "odbijenaPonuda": odbijenaPonuda
+            }
         }
 
         forSend = JSON.stringify(ponuda)
