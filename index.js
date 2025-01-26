@@ -434,6 +434,85 @@ app.get('/next/upiti/nekretnina/:id', async (req, res) => {
   }
 });
 
+/*Creates new request*/
+app.post('/nekretnina/:id/zahtjev', async (req, res) => {
+  if(!req.session.username) {
+    return res.status(401).json({ greska: 'Neautorizovan pristup' });
+  }
+  const { id } = req.params;
+  const { tekst, trazeniDatum } = req.body;
+
+  try{
+    datum = new Date(trazeniDatum);
+
+    if(datum < new Date()) {
+      res.status(400).json({ greska: 'Neispravan datum' });
+      return;
+    }
+
+    const nekretnina = await db.nekretnina.findOne({ where: { id: id } });
+
+    if (!nekretnina) {
+      return res.status(404).json({ greska: 'Nekretnina nije pronadjena' });
+    }
+
+    let korisnik = await db.korisnik.findOne({ where: { username: req.session.username } });
+
+    db.zahtjev.create({
+      tekst: tekst,
+      trazeniDatum: trazeniDatum,
+      korisnikId: korisnik.id,
+      nekretninaId: id
+    });
+
+    res.status(200).json({ poruka: 'Zahtjev je uspjesno poslan' });
+
+  }
+  catch(error) {
+    console.error('Error creating request:', error);
+    res.status(500).json({ greska: 'Internal Server Error' });
+  }
+});
+
+app.put('/nekretnina/:id/zahtjev/:zid', async (req, res) => {
+  if(!req.session.username) {
+    return res.status(401).json({ greska: 'Neautorizovan pristup' });
+  }
+
+  const { id, zid } = req.params;
+  const { odobren, addToTekst } = req.body;
+
+  try{
+    const korisnik = await db.korisnik.findOne({ where: { username: req.session.username } });
+
+    if(!korisnik || !korisnik.admin) {
+      return res.status(401).json({ greska: 'Neautorizovan pristup' });
+    }
+
+    const zahtjev = await db.zahtjev.findOne({ where: { id: zid } });
+
+    if(!zahtjev) {
+      return res.status(404).json({ greska: 'Zahtjev nije pronadjen' });
+    }
+    if(!odobren && !addToTekst) {
+      return res.status(404).json({ greska: 'Nedostaje odgovor' });
+    }
+
+    zahtjev.odobren = odobren;
+    if(addToTekst) {
+      zahtjev.tekst += `\n ODGOVOR ADMINA: ${addToTekst}`;
+    }
+
+    zahtjev.save();
+
+    res.status(200).json({ poruka: 'Zahtjev je uspjesno azuriran' });
+  }
+  catch(error) {
+    console.error('Error updating request:', error);
+    res.status(500).json({ greska: 'Internal Server Error' });
+  }
+});
+
 /* ----------------- MARKETING ROUTES ----------------- */
 
 // Route that increments value of pretrage for one based on list of ids in nizNekretnina

@@ -222,6 +222,55 @@ const PoziviAjax = (() => {
         ajax.send()
     }
 
+    function postNekretninaZahtjev(nekretnina_id, tekst, trazeniDatum, fnCallback){
+        var ajax = new XMLHttpRequest()
+
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                fnCallback(null, ajax.response)
+            }
+            else if (ajax.readyState == 4) {
+                //desio se neki error
+                console.log("Response", ajax.responseText);
+                fnCallback(ajax.responseText, null)
+            }
+        }
+        ajax.open("POST", `http://localhost:3000/nekretnina/${nekretnina_id}/zahtjev`, true)
+        ajax.setRequestHeader("Content-Type", "application/json")
+        let upit = {
+            "tekst": tekst,
+            "trazeniDatum": trazeniDatum
+        }
+        forSend = JSON.stringify(upit)
+        ajax.send(forSend)
+
+        fnCallback(null, { poruka: 'Zahtjev je uspješno dodan' });
+    }
+
+    function putNekretninaZahtjev(nekretnina_id, zahtjev_id, odobren, addToTekst, fnCallback){
+        let ajax = new XMLHttpRequest()
+
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                fnCallback(null, JSON.parse(ajax.responseText))
+            }
+            else if (ajax.readyState == 4) {
+                //desio se neki error
+                fnCallback(ajax.statusText, null)
+            }
+        }
+        ajax.open("PUT", `http://localhost:3000/nekretnina/${nekretnina_id}/zahtjev/${zahtjev_id}`, true)
+        ajax.setRequestHeader("Content-Type", "application/json")
+        
+        let izmjena = {
+            odobren: odobren,
+            addToTekst: addToTekst,
+        }
+        ajax.send(JSON.stringify(izmjena));
+
+        fnCallback(null, { poruka: 'Zahtjev je uspješno ažuriran' });
+    }
+
     return {
         postLogin: impl_postLogin,
         postLogout: impl_postLogout,
@@ -232,6 +281,8 @@ const PoziviAjax = (() => {
         getTop5Nekretnina: getTop5Nekretnina,
         getMojiUpiti: getMojiUpiti,
         getNekretnina: getNekretnina,
-        getNextUpiti: getNextUpiti
+        getNextUpiti: getNextUpiti,
+        postNekretninaZahtjev: postNekretninaZahtjev,
+        putNekretninaZahtjev: putNekretninaZahtjev
     };
 })();
