@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const sequelize_obj = new Sequelize("wt24","root","password",{ //bila sifra: "password" umjesto ""
+const sequelize_obj = new Sequelize("wt24","root","password",{ //za vrijeme izrade projekta, paswword bio ""
     host:"localhost",
     dialect:"mysql"});
 const db={};
