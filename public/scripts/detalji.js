@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('osnovno').innerHTML = `<div class="greske"><p>Došlo je do greške.</p>`;
                 return;
             }
-            document.getElementById('slika').src = `../Resources/${data.id}.jpg`;
+            document.getElementById('slika').src = `../resources/${data.id}.jpg`;
             document.getElementById('naziv').innerHTML = `<strong>Naziv:</strong> ${data.naziv}`;
             document.getElementById('kvadratura').innerHTML = `<strong>Kvadratura:</strong> ${data.kvadratura}`;
             document.getElementById('cijena').innerHTML = `<strong>Cijena:</strong> ${data.cijena}`;

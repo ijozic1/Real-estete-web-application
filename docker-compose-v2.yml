@@ -1,0 +1,35 @@
+services:
+# postavljanje parametara za mysql-db kontejner, ekvivalentno naredbi 
+# docker run --name mysql-db --network arm-mreza -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=wt24-d mysql:latest
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-db
+    networks:
+      - arm-mreza
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=wt24
+# postavljanje parametara za nodejs-app kontejner, ekvivalentno naredbi 
+# docker run -dp 3000:3000 --network arm-mreza --name nodejs-app nodejs-app:v1.0
+# pri čemu se naglašava da zavisi od mysql-db kontejnera (depends_on) i definiše se politika ponovnog pokušaja
+# pokretanja u slučaju neuspjeha (restart_policy) 
+  nodejs-app:
+    #build: .      # uklonjena stavka build jer se slika povlači s Docker Hub-a
+    image: ijozic2/arm-zadaca:nodejs-app   #naziv slike koja će se pull-ati s Docker Hub-a
+    
+    container_name: nodejs-app
+    ports:
+      - "3000:3000"
+    networks:
+      - arm-mreza
+    depends_on:
+      - mysql-db
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+# definiše se mreža arm-mreza, unutar koje je će se nalaziti ovi kontejneri 
+networks:
+  arm-mreza:
+    name: arm-mreza
+    driver: bridge

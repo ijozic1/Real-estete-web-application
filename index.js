@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
-const db = require('./database/db.js');
+const {db, inicializacija} = require('./database/db.js');
 
 app.use(session({
   secret: 'tajna sifra',
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 // Async function for serving html files
 async function serveHTMLFile(req, res, fileName) {
-  const htmlPath = path.join(__dirname, 'public/html', fileName);
+  const htmlPath = path.join(__dirname, 'public/HTML', fileName);
   try {
     const content = await fs.readFile(htmlPath, 'utf-8');
     res.send(content);
@@ -783,7 +783,21 @@ app.post('/marketing/osvjezi/klikovi', async (req, res) => {
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+async function StartServer(){
+  try{
+    await db.sequelize.sync({force: true});
+    await inicializacija();
+
+    // Start server
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  }
+  catch(error){
+    console.error(`Error ${error} while starting server`);
+  }
+}
+
+StartServer();
+
+
