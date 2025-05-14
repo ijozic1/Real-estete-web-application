@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize_obj = new Sequelize("wt24","root","password",{ //za vrijeme izrade projekta, password bio ""
-    host:"mysql-db",
-    //host:"localhost",
+    host:"10.0.133.142",
+    //host:"mysql-db", - docker zadaca
+    //host:"localhost", - projekat
     dialect:"mysql",
     port: '3306',
     logging: false,
